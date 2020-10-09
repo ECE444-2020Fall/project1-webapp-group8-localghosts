@@ -12,7 +12,12 @@ Create a Python `virtualenv` and install the dependencies:
 cd /path/to/repo
 
 python -m venv venv
-./venv/Scripts/activate
+
+# Bash-like shells
+source ./venv/bin/activate
+
+# Windows
+.\venv\Scripts\activate
 
 pip install -r requirements.txt
 ```
@@ -41,6 +46,11 @@ exit()
 ```
 
 Finally, run your application. You can view the page at [localhost:5000](http://localhost:5000/).
+
+```sh
+# after setting FLASK_APP
+flask run
+```
 
 ## Contribution guidelines
 
