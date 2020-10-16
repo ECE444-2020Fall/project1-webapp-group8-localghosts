@@ -1,0 +1,22 @@
+.jumbotron{
+    background-image: url(/static/images/search_background.png);
+    background-size: 100% 100%;
+}
+
+.jumbotron h1.jumbotron-text{
+    color: #d4af85; /* dark cream */
+    font-size: 60px;
+}
+
+.search-bar{
+    height: 45px;
+    width: 260px;
+    background-color: #FEEFDD; /* light cream */
+    border: none;
+    border-radius: 5px;
+}
+
+.glyphicon.glyphicon-search{
+    color: #d4af85; /* dark cream */
+    font-size: 80px;
+}

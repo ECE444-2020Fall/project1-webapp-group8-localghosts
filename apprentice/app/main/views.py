@@ -25,3 +25,16 @@ def index():
         name=session.get("name"),
         known=session.get("known", False),
     )
+
+@main.route("/search", methods=["GET", "POST"])
+def search():
+    return render_template("search.html")
+
+
+@main.route("/fridge", methods=["GET", "POST"])
+def fridge():
+    return render_template("fridge.html")
+
+@main.route("/list", methods=["GET", "POST"])
+def list():
+    return render_template("list.html")
