@@ -26,6 +26,7 @@ def index():
         known=session.get("known", False),
     )
 
+
 @main.route("/search", methods=["GET", "POST"])
 def search():
     return render_template("search.html")
@@ -34,6 +35,7 @@ def search():
 @main.route("/fridge", methods=["GET", "POST"])
 def fridge():
     return render_template("fridge.html")
+
 
 @main.route("/list", methods=["GET", "POST"])
 def list():
