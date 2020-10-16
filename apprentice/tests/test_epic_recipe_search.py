@@ -18,4 +18,3 @@ class RecipeSearchTestCase(unittest.TestCase):
     def test_app_exists(self):
         # TODO: replace -- this is a dummy test
         self.assertFalse(current_app is None)
-

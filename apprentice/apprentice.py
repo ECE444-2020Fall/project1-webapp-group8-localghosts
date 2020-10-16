@@ -25,5 +25,6 @@ def test(test_names):
         tests = unittest.TestLoader().discover("tests")
     unittest.TextTestRunner(verbosity=2).run(tests)
 
+
 # It's recommended to not put `app.run()` here for larger applications
 # and instead use `flask run` after setting the FLASK_APP env var

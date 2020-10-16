@@ -1,16 +1,47 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
 
-{% block title %}APPrentice{% endblock %}
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
 
 {% block page_content %}
-<div class="page-header">
-    <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
-    {% if not known %}
-    <p>Pleased to meet you!</p>
-    {% else %}
-    <p>Happy to see you again!</p>
-    {% endif %}
+
+<div class="jumbotron">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-4 text-center">
+              <h1 class="jumbotron-text">Ready. Set. Cook!</h1>
+              <br>
+              <form class="form-inline">
+                  <input class="search-bar" type="text" placeholder="Find a Recipe...">
+                  <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                  <br><br><br>
+                  <a href="{{ url_for('main.search') }}">
+                      <span class="glyphicon glyphicon-search"></span>
+                      <h4>Search by ingredients, <br>nutrition information <br> and more...</h4>
+                  </a>
+              </form>
+              <br>
+          </div>
+      </div>
+  </div>
 </div>
-{{ wtf.quick_form(form) }}
+
+<div class="row">
+
+    <div class="col-md-6 text-center">
+        <a class="btn btn-primary btn-xlg text-center" href="{{ url_for('main.fridge') }}" role="button">Manage My Fridge</a>
+    </div>
+
+
+    <div class="col-md-6 text-center">
+        <a class="btn btn-primary btn-xlg text-center" href="{{ url_for('main.list') }}" role="button"> My Grocery List</a>
+    </div>
+
+
+</div>
+
 {% endblock %}
