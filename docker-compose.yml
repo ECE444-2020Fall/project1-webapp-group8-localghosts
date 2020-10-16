@@ -3,5 +3,12 @@ version: "3.8"
 services:
   app:
     build: ./apprentice
+    restart: on-failure
     ports:
       - "5000:5000"
+  recipes:
+    build: ./recipe-db
+    restart: on-failure
+    ports:
+      - "9200:9200"
+      - "9300:9300"

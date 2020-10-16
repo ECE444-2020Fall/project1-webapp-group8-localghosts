@@ -25,4 +25,7 @@ RUN docker-entrypoint.sh elasticsearch -p /tmp/epid > /dev/null 2>&1 & echo "Wai
     && wait $(cat /tmp/epid); \
     exit 0
 
+# Tell the new container to shut up unless it's important
+RUN echo 'logger.level: WARN' >> config/elasticsearch.yml
+
 # And now everything should be pre-loaded and ready to go @port 9200 (& 9300)
