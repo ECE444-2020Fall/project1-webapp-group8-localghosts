@@ -45,7 +45,7 @@ Also provided in this repo is a `docker-compose.test.yml` file, which can be use
 
 ```sh
 # Build and run tests in foreground
-docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build
+docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --abort-on-container-exit
 ```
 
 ## Contribution guidelines
