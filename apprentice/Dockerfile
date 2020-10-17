@@ -13,6 +13,8 @@ ENV FLASK_APP=apprentice.py
 # look into a proper, persistent db
 RUN echo "db.create_all(); exit()" | flask shell
 
-ENTRYPOINT [ "flask" ]
+# Wait for elasticsearch to be up and then start flasking
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
 
-CMD [ "run", "--host=0.0.0.0" ]
+CMD /wait && flask run --host=0.0.0.0
