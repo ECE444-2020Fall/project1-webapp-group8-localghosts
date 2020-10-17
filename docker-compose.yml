@@ -7,6 +7,7 @@ services:
     ports:
       - "5000:5000"
     environment: 
+      - "ELASTICSEARCH_URL=http://recipes:9200/"
       - "WAIT_HOSTS=recipes:9200"
   recipes:
     build: ./recipe-db

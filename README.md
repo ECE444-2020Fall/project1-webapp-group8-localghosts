@@ -18,7 +18,7 @@ You can run the full app using docker-compose:
 # Build and run in foreground
 docker-compose up --build
 
-# Flask app should now be accessible at localhost:5000
+# Flask app should now be accessible at localhost:5000 once Elasticsearch is up
 # Elasticsearch should be accessible at localhost:9200 (takes a few seconds to start up, please wait)
 
 # ctrl-c to kill

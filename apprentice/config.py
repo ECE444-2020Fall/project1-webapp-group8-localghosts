@@ -7,6 +7,7 @@ class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY") or "hard to guess string"
     APPRENTICE_ADMIN = os.environ.get("APPRENTICE_ADMIN")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    ELASTICSEARCH_URL = os.environ.get("ELASTICSEARCH_URL") or "http://localhost:9200"
 
     @staticmethod
     def init_app(app):
