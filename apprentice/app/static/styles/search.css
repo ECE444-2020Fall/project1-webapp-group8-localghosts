@@ -1,0 +1,39 @@
+.nav-container{
+    margin-left: 8px;
+}
+
+.results-container{
+    margin: 20px;
+    height: 100px;
+    width: auto;
+    background-color: #FEEFDD; /* light cream */
+    border: none;
+    border-radius: 5px;
+}
+
+.num-res{
+    margin-top: 10px;
+    margin-left: 8px;
+    font-weight: bold;
+
+}
+
+.recipe-name{
+    width: auto;
+    height: auto;
+
+}
+
+.column1{
+    margin: 2px;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.recipe-desc{
+    margin: 2px;
+    width: auto;
+    height: auto;
+    display: inline-flex;
+    flex-direction: column;
+}

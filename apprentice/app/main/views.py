@@ -3,6 +3,8 @@ from .. import db
 from ..models import User
 from . import main
 from .forms import NameForm
+import json
+import os
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -29,7 +31,26 @@ def index():
 
 @main.route("/search", methods=["GET", "POST"])
 def search():
-    return render_template("search.html")
+    # assume given data is like example.json
+    cwd = os.getcwd()
+    datapath = os.path.join(cwd, 'app/example.json')
+    with open(datapath) as f:
+        dict_dump = json.load(f)    
+    results = True
+    num_results = 1
+    recipe_name = dict_dump['name']
+    recipe_pic = dict_dump['image']
+    recipe_url = dict_dump['url']
+    recipe_desc = dict_dump['description']
+
+    return render_template("search.html", 
+        search_results=results,
+        num_res=num_results,
+        name=recipe_name,
+        image=recipe_pic,
+        url=recipe_url,
+        description=recipe_desc    
+    )
 
 
 @main.route("/fridge", methods=["GET", "POST"])
