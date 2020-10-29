@@ -59,4 +59,4 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
       - name: Build and run tests
-      - run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --exit-code-from app
+        run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --exit-code-from app
