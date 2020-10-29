@@ -1,4 +1,5 @@
 import os
+import sys
 import click
 from flask_migrate import Migrate
 from app import create_app, db
@@ -23,7 +24,9 @@ def test(test_names):
         tests = unittest.TestLoader().loadTestsFromNames(test_names)
     else:
         tests = unittest.TestLoader().discover("tests")
-    unittest.TextTestRunner(verbosity=2).run(tests)
+
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    sys.exit(not result.wasSuccessful())
 
 
 # It's recommended to not put `app.run()` here for larger applications
