@@ -21,9 +21,9 @@ jobs:
           ref: ${{ github.head_ref }}
       
       - name: Set up Python
-          uses: actions/setup-python@v2
-          with:
-            python-version: '3.x'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
       - name: Format python code with isort (for import ordering) and black (for everything else)
         run: |
