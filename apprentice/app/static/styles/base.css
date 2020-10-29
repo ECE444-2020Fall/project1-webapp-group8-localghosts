@@ -1,23 +1,28 @@
-body{
-    background: #d4af85; /* dark cream */
+body {
+    background: #d4af85;
+    /* dark cream */
 }
 
-h4{
-    color: #FEEFDD; /* light cream */
+h4 {
+    color: #FEEFDD;
+    /* light cream */
 }
 
-.navbar{
-    background: #d4af85; /* dark cream */
+.navbar {
+    background: #d4af85;
+    /* dark cream */
     margin-bottom: 0;
     border-radius: 0px;
 }
 
 .nav.navbar-nav li a {
-    color: #241910; /* dark brown */
+    color: #241910;
+    /* dark brown */
 }
 
 .nav.navbar-brand a {
-    color: #241910; /* dark brown */
+    color: #241910;
+    /* dark brown */
 }
 
 .btn-primary,
@@ -25,14 +30,17 @@ h4{
 .btn-primary:active,
 .btn-primary:visited,
 .btn-primary:focus {
-    background-color: #FEEFDD; /* light cream */
-    border-color: #FEEFDD; /* light cream */
-    color: #241910; /* dark brown */
+    background-color: #FEEFDD;
+    /* light cream */
+    border-color: #FEEFDD;
+    /* light cream */
+    color: #241910;
+    /* dark brown */
 }
 
-.btn-xlg{
+.btn-xlg {
     padding: 18px 18px;
-    font-size: 28px; //change this to your desired size
+    font-size: 28px;
     line-height: normal;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;

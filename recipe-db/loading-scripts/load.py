@@ -1,12 +1,11 @@
-import json
 import gzip
+import json
 import random
-
-from elasticsearch import Elasticsearch, helpers
-
 from io import BytesIO
 from typing import List
 from urllib.request import urlopen
+
+from elasticsearch import Elasticsearch, helpers
 
 RECIPES_URL = "https://s3.amazonaws.com/openrecipes/20170107-061401-recipeitems.json.gz"
 ES_URL = "http://localhost:9200"
