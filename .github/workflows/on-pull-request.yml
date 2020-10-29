@@ -1,0 +1,45 @@
+name: Pull Request Automation
+
+# Triggered on create pull request and re-triggered for every new commit that's pushed to the branch with a PR open
+# Doc: https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows#pull_request
+on: pull_request
+
+jobs:
+  # Check out the code, format it, and push a new commit if anything's changed
+  # Heavily inspired by https://peterevans.dev/posts/github-actions-how-to-automate-code-formatting-in-pull-requests/
+  format:
+    # Check if the PR is not from a fork (required because of read/write permission limitations on default token)
+    # https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#permissions-for-the-github_token
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Format python code with isort (for import ordering)
+        uses: olance/isort-action@v1.0.0
+        with:
+          args: .
+
+      - name: Format python code with black (for everything else pep8 related)
+        uses: lgeiger/black-action@v1.0.1
+        with:
+          args: .
+
+      - name: Format frontend code with js-beautify (2 space indents)
+        run: "git ls-files '*.html' '*.css' '*.js' | xargs npx js-beautify --replace"
+
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+
+      - name: Commit and push back changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'LocalGhosts Bot'
+          git config --global user.email 'project1-webapp-group8-localghosts@noreply.github.com'
+          git commit -am "Automated code formatting"
+          git push
