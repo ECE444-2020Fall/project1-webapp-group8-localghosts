@@ -10,24 +10,24 @@
 {% block page_content %}
 
 <div class="jumbotron">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-4 text-center">
-              <h1 class="jumbotron-text">Ready. Set. Cook!</h1>
-              <br>
-              <form class="form-inline">
-                  <input class="search-bar" type="text" placeholder="Find a Recipe...">
-                  <button type="submit" class="btn btn-primary btn-lg">Search</button>
-                  <br><br><br>
-                  <a href="{{ url_for('main.search') }}">
-                      <span class="glyphicon glyphicon-search"></span>
-                      <h4>Search by ingredients, <br>nutrition information <br> and more...</h4>
-                  </a>
-              </form>
-              <br>
-          </div>
-      </div>
-  </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <h1 class="jumbotron-text">Ready. Set. Cook!</h1>
+                <br>
+                <form class="form-inline">
+                    <input class="search-bar" type="text" placeholder="Find a Recipe...">
+                    <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                    <br><br><br>
+                    <a href="{{ url_for('main.search') }}">
+                        <span class="glyphicon glyphicon-search"></span>
+                        <h4>Search by ingredients, <br>nutrition information <br> and more...</h4>
+                    </a>
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row">

@@ -1,11 +1,11 @@
-from flask import current_app
-from elasticsearch_dsl import Document, Text, Short, Keyword
+from elasticsearch_dsl import Document, Keyword, Short, Text
 from elasticsearch_dsl.response import Response
+from flask import current_app
 
 
 class Recipe(Document):
     """Python representation of a Recipe document in Elasticsearch
-    
+
     :param name: A string, the recipe title.
     :param ingredients: A list of strings, the ingredients of the recipe.
     :param url: A string, the URL from where the recipe was sourced
@@ -58,7 +58,7 @@ class Recipe(Document):
     @classmethod
     def get_single_recipe(cls):
         """Return a single Recipe object from Elasticsearch
-        
+
         :rtype: Recipe
         """
         return cls.search().execute()[0]
@@ -66,7 +66,7 @@ class Recipe(Document):
     @classmethod
     def get_multi_recipe_paged(cls, page=0, per_page=10):
         """Return a list of Recipes, considering pagination
-        
+
         Usage::
 
             >>> # Default options just get you the first 10 recipes
