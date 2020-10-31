@@ -79,6 +79,10 @@ class Recipe(Document):
         :param per_page: The size of each page of results to get
         :rtype: List[Recipe]
         """
-        return list(cls.search(using=current_app.elasticsearch)[page * per_page : (page + 1) * per_page].execute())
+        return list(
+            cls.search(using=current_app.elasticsearch)[
+                page * per_page : (page + 1) * per_page
+            ].execute()
+        )
 
     ### TODO: CUSTOM SEARCH METHODS ###
