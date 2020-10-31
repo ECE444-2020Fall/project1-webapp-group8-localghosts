@@ -51,7 +51,6 @@ class Recipe(Document):
     # The Index inner class is where we define connection config
     class Index:
         name = "recipes"
-        using = current_app.elasticsearch
 
     ### THESE ARE SAMPLE METHODS FOR YOU TO GET DATA FROM ###
 
@@ -61,7 +60,7 @@ class Recipe(Document):
 
         :rtype: Recipe
         """
-        return cls.search().execute()[0]
+        return cls.search(using=current_app.elasticsearch).execute()[0]
 
     @classmethod
     def get_multi_recipe_paged(cls, page=0, per_page=10):
@@ -80,6 +79,6 @@ class Recipe(Document):
         :param per_page: The size of each page of results to get
         :rtype: List[Recipe]
         """
-        return list(cls.search()[page * per_page : (page + 1) * per_page].execute())
+        return list(cls.search(using=current_app.elasticsearch)[page * per_page : (page + 1) * per_page].execute())
 
     ### TODO: CUSTOM SEARCH METHODS ###
