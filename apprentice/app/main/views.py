@@ -2,9 +2,9 @@ from flask import current_app, redirect, render_template, session, url_for
 
 from .. import db
 from ..models import User
+from ..search import Recipe
 from . import main
 from .forms import NameForm
-from ..search import Recipe
 
 
 @main.route("/", methods=["GET", "POST"])
