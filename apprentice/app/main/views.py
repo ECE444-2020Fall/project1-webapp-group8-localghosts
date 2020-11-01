@@ -4,6 +4,7 @@ from .. import db
 from ..models import User
 from . import main
 from .forms import NameForm
+from ..search import Recipe
 
 
 @main.route("/", methods=["GET", "POST"])
