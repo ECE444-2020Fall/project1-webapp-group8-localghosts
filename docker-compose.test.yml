@@ -6,3 +6,5 @@ version: "3.8"
 services:
   app:
     command: "test"
+    environment:
+      - "WAIT_AFTER_HOSTS=5"

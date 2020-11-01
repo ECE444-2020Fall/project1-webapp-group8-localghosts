@@ -18,11 +18,11 @@ class RecipeSearchTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_can_get_single_document(self):
-        """Attribution (for Lab 6): Amar Arefeen"""
+        # Attribution (for Lab 6): Amar Arefeen
         self.assertEqual(type(Recipe.get_single_recipe()), Recipe)
 
     def test_can_get_50_recipes(self):
-        """Attribution (for Lab 6): Amar Arefeen"""
+        # Attribution (for Lab 6): Amar Arefeen
         # Get 50 of them
         recipes = []
         for i in range(5):
