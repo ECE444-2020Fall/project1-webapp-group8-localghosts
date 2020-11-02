@@ -20,15 +20,15 @@
     <a href="{{ url_for('main.index') }}">
         <h1>APPrentice</h1>
     </a>
-
-
-    <nav>
-        <a id="home" href="{{ url_for('main.index') }}">Home</a>
-        <a id="search" href="{{ url_for('main.search') }}">Search</a>
-        <a id="my-fridge" href="{{ url_for('main.fridge') }}">My Fridge</a>
-        <a id="grocery-list" href="{{ url_for('main.list') }}">Grocery List</a>
-        <div id="special-div" class="animation "></div>
-    </nav>
+    <div>
+        <nav>
+            <a id="home" href="{{ url_for('main.index') }}">Home</a>
+            <a id="search" href="{{ url_for('main.search') }}">Search</a>
+            <a id="my-fridge" href="{{ url_for('main.fridge') }}">My Fridge</a>
+            <a id="grocery-list" href="{{ url_for('main.list') }}">Grocery List</a>
+            <div id="special-div" class="animation "></div>
+        </nav>
+    </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
