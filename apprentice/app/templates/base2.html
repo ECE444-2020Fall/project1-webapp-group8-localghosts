@@ -11,24 +11,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/base2.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
-
 {% endblock %}
 
 <body>
     {% block navbar %}
-    <a href="{{ url_for('main.index') }}"><h1>APPrentice</h1></a>
-    
-
-    <nav>
-        <a href="{{ url_for('main.index') }}">Home</a>
-        <a href="{{ url_for('main.search') }}">Search</a>
-        <a href="{{ url_for('main.fridge') }}">My Fridge</a>
-        <a href="{{ url_for('main.list') }}">Grocery List</a>
-        <div class="animation start-home"></div>
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">APPrentice</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.fridge') }}">My Fridge</a></li>
+                <li><a href="{{ url_for('main.list') }}">Grocery List</a></li>
+            </ul>
+        </div>
     </nav>
-    
     {% endblock %}
 
     {% block content %}
