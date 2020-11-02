@@ -1,3 +1,6 @@
+import json
+import os
+
 from flask import current_app, redirect, render_template, session, url_for
 
 from .. import db
@@ -5,8 +8,6 @@ from ..models import User
 from ..search import Recipe
 from . import main
 from .forms import NameForm
-import json
-import os
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -33,14 +34,14 @@ def index():
 
 @main.route("/search", methods=["GET", "POST"])
 def search():
-    '''
+    """
     #Returns the rendered template search.html
 
     #   The search page will display recipes from the database given a query in the search box
 
     #   Note: for now the search will only display 'search results' as cards for display
     #   No query is given yet
-    '''
+    """
 
     # get 50 recipes:
     recipes = []
@@ -51,10 +52,11 @@ def search():
         is_recipes = True
     num_results = len(recipes)
 
-    return render_template("search.html", 
+    return render_template(
+        "search.html",
         is_search_results=is_recipes,
         num_res=num_results,
-        recipes=recipes
+        recipes=recipes,
     )
 
 

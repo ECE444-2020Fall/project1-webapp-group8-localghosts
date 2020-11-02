@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
 {% endblock %}
 
-{% block page_content %} 
+{% block page_content %}
 
 <div class=nav-container>
     <input class="search-bar" type="text" placeholder="Find a Recipe...">
@@ -15,9 +15,9 @@
 
 {% if is_search_results %}
 <div class=num-res>Search results: {{num_res}}</div>
-    {% for recipe in recipes %}
-        {% include '_search.html' %}
-    {% endfor %}
+{% for recipe in recipes %}
+{% include '_search.html' %}
+{% endfor %}
 {% endif %}
 
 <div>{{recipe}}</div>
@@ -25,24 +25,24 @@
 
 
 {% block app_content %}
-    <h1>{{ _('Search Results') }}</h1>
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
-    <nav aria-label="...">
-        <ul class="pager">
-            <li class="previous{% if not prev_url %} disabled{% endif %}">
-                <a href="{{ prev_url or '#' }}">
-                    <span aria-hidden="true">&larr;</span>
-                    {{ _('Previous results') }}
-                </a>
-            </li>
-            <li class="next{% if not next_url %} disabled{% endif %}">
-                <a href="{{ next_url or '#' }}">
-                    {{ _('Next results') }}
-                    <span aria-hidden="true">&rarr;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+<h1>{{ _('Search Results') }}</h1>
+{% for post in posts %}
+{% include '_post.html' %}
+{% endfor %}
+<nav aria-label="...">
+    <ul class="pager">
+        <li class="previous{% if not prev_url %} disabled{% endif %}">
+            <a href="{{ prev_url or '#' }}">
+                <span aria-hidden="true">&larr;</span>
+                {{ _('Previous results') }}
+            </a>
+        </li>
+        <li class="next{% if not next_url %} disabled{% endif %}">
+            <a href="{{ next_url or '#' }}">
+                {{ _('Next results') }}
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 {% endblock %}
