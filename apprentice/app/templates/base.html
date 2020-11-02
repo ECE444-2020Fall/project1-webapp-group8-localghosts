@@ -18,8 +18,10 @@
 
 <body>
     {% block navbar %}
-    <a href="{{ url_for('main.index') }}"><h1>APPrentice</h1></a>
-    
+    <a href="{{ url_for('main.index') }}">
+        <h1>APPrentice</h1>
+    </a>
+
 
     <nav>
         <a href="{{ url_for('main.index') }}">Home</a>
@@ -28,7 +30,7 @@
         <a href="{{ url_for('main.list') }}">Grocery List</a>
         <div class="animation start-home"></div>
     </nav>
-    
+
     {% endblock %}
 
     {% block content %}

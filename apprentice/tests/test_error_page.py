@@ -1,9 +1,10 @@
 import unittest
-from flask import current_app
+
 from app import create_app, db
+from flask import current_app
 
 
-class ErrorPageTestCase(unittest.TestCase): 
+class ErrorPageTestCase(unittest.TestCase):
     def setUp(self):
         self.app = create_app("testing")
         self.app_context = self.app.app_context()
@@ -18,5 +19,5 @@ class ErrorPageTestCase(unittest.TestCase):
     # Test written by Ahmed Rosanally
 
     def testErrorPage(self):
-        response = self.app.test_client().get('/blurr')
+        response = self.app.test_client().get("/blurr")
         self.assertEqual(response.status_code, 404)
