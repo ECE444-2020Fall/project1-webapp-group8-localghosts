@@ -15,24 +15,26 @@
 {% endblock %}
 
 <body>
-  {% block navbar %}
-  <nav class="navbar navbar-dark">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="{{ url_for('main.index') }}">APPrentice</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a href="{{ url_for('main.index') }}">Home</a></li>
-        <li><a href="{{ url_for('main.search') }}">Search</a></li>
-        <li><a href="{{ url_for('main.fridge') }}">My Fridge</a></li>
-        <li><a href="{{ url_for('main.list') }}">Grocery List</a></li>
-      </ul>
-    </div>
-  </nav>
-  {% endblock %}
+    {% block navbar %}
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url_for('main.index') }}">APPrentice</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                <li><a href="{{ url_for('main.search') }}">Search</a></li>
+                <li><a href="{{ url_for('main.fridge') }}">My Fridge</a></li>
+                <li><a href="{{ url_for('main.list') }}">Grocery List</a></li>
+            </ul>
+        </div>
+    </nav>
+    {% endblock %}
 
-  {% block content %}
-      {% block page_content %}{% endblock %}
-  {% endblock %}
+    {% block content %}
+    {% block page_content %}
+    {% endblock %}
+
+    {% endblock %}
 
 </body>
