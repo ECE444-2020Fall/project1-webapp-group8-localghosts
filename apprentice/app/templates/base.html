@@ -15,7 +15,7 @@
 
 {% endblock %}
 
-<body >
+<body>
     {% block navbar %}
     <a href="{{ url_for('main.index') }}">
         <h1>APPrentice</h1>
@@ -31,17 +31,15 @@
     </nav>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        
-    $(document).ready(function() {
-        $("a").click(function(event) {
-            // create variable that adds the appropriate css style to the <a> element
-            var my_id = event.target.id; // get the id that triggered the event
-            desired_class = "animation start-".concat(my_id);
-            $('#special-div').removeClass().addClass(desired_class);
-            // alert($('#special-div').hasClass(desired_class));
+        $(document).ready(function() {
+            $("a").click(function(event) {
+                // create variable that adds the appropriate css style to the <a> element
+                var my_id = event.target.id; // get the id that triggered the event
+                desired_class = "animation start-".concat(my_id);
+                $('#special-div').removeClass().addClass(desired_class);
+                // alert($('#special-div').hasClass(desired_class));
+            });
         });
-    });
-    
     </script>
     {% endblock %}
 
