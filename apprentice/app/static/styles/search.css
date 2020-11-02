@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
 .nav-container{
     margin-left: 8px;
 }
 
 .results-container{
     margin: 20px;
-    height: 100px;
+    height: auto;
     width: auto;
     background-color: #FEEFDD; /* light cream */
     border: none;
@@ -19,8 +20,10 @@
 }
 
 .recipe-name{
+    font-family: 'Montserrat', sans-serif;
     width: auto;
     height: auto;
+    text-align: center;
 
 }
 
@@ -30,12 +33,23 @@
     flex-direction: column;
 }
 
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .recipe-pic{
-    width: 100%;
-    height: auto;
+    height: 200px;
+    width: 300px;
+    display: inline;
+    text-align: center;
+    /* margin-left: 24px;
+    margin-top: 3px;
+    margin-bottom: 3px; */
 }
 
 .recipe-desc{
+    font-family: 'Open Sans', sans-serif;
     margin: 2px;
     width: auto;
     height: auto;

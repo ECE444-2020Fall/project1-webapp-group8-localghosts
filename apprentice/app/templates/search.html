@@ -4,7 +4,6 @@
 {{ super() }}
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/search.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
-
 {% endblock %}
 
 {% block page_content %} 
@@ -14,24 +13,11 @@
     <button type="submit" class="btn btn-primary btn-lg">Search</button>
 </div>
 
-{% if search_results %}
-<!-- there should be a for loop here
-more html below to a seperate file... use include to create multiple cards -->
-
+{% if is_search_results %}
 <div class=num-res>Search results: {{num_res}}</div>
-<div class=results-container>
-    <div class=column1>
-        <div class=recipe-name>
-        <a href={{url}}>{{name}}</a> 
-        </div>
-
-        <div class=recipe-pic>
-            <img src={{image}} alt="Recipe Image">
-        </div>
-    </div>
-    <div class=recipe-desc> <b>Description:</b> {{description}} </div>
-
-</div>
+    {% for recipe in recipes %}
+        {% include '_search.html' %}
+    {% endfor %}
 {% endif %}
 
 <div>{{recipe}}</div>

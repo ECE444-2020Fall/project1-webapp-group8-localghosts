@@ -33,26 +33,28 @@ def index():
 
 @main.route("/search", methods=["GET", "POST"])
 def search():
-    # assume given data is like example.json
-    cwd = os.getcwd()
-    datapath = os.path.join(cwd, 'app/example.json')
-    with open(datapath) as f:
-        dict_dump = json.load(f)    
-    results = True
-    num_results = 1
-    recipe_name = dict_dump['name']
-    recipe_pic = dict_dump['image']
-    recipe_url = dict_dump['url']
-    recipe_desc = dict_dump['description']
+    '''
+    #Returns the rendered template search.html
+
+    #   The search page will display recipes from the database given a query in the search box
+
+    #   Note: for now the search will only display 'search results' as cards for display
+    #   No query is given yet
+    '''
+
+    # get 50 recipes:
+    recipes = []
+    for i in range(5):
+        recipes += Recipe.get_multi_recipe_paged(page=i, per_page=10)
+
+    if recipes != []:
+        is_recipes = True
+    num_results = len(recipes)
 
     return render_template("search.html", 
-        search_results=results,
+        is_search_results=is_recipes,
         num_res=num_results,
-        name=recipe_name,
-        image=recipe_pic,
-        url=recipe_url,
-        description=recipe_desc,
-        recipe=Recipe.get_single_recipe()   
+        recipes=recipes
     )
 
 

@@ -14,7 +14,7 @@ ES_INDEX = "recipes"
 ES_MAPPING = {}  # will load from ./recipe-mapping.json
 
 
-def download_file(url: str): -> List[dict]:
+def download_file(url: str) -> List[dict]:
     recipes = []
     with urlopen(url) as f:
         with gzip.GzipFile(fileobj=BytesIO(f.read())) as g:
@@ -24,7 +24,7 @@ def download_file(url: str): -> List[dict]:
     return recipes
 
 
-def process_recipe(recipe: dict):  -> dict:
+def process_recipe(recipe: dict)  -> dict:
     # Remove unwanted fields
     for key, value in list(recipe.items()):
         if key not in ES_MAPPING["properties"] or value is None:
