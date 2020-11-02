@@ -11,12 +11,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
 <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
-<link rel="stylesheet" href="{{ url_for('static', filename='styles/base2.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
 
 {% endblock %}
 
-<body>
+<body >
     {% block navbar %}
     <a href="{{ url_for('main.index') }}">
         <h1>APPrentice</h1>
@@ -24,13 +23,26 @@
 
 
     <nav>
-        <a href="{{ url_for('main.index') }}">Home</a>
-        <a href="{{ url_for('main.search') }}">Search</a>
-        <a href="{{ url_for('main.fridge') }}">My Fridge</a>
-        <a href="{{ url_for('main.list') }}">Grocery List</a>
-        <div class="animation start-home"></div>
+        <a id="home" href="{{ url_for('main.index') }}">Home</a>
+        <a id="search" href="{{ url_for('main.search') }}">Search</a>
+        <a id="my-fridge" href="{{ url_for('main.fridge') }}">My Fridge</a>
+        <a id="grocery-list" href="{{ url_for('main.list') }}">Grocery List</a>
+        <div id="special-div" class="animation "></div>
     </nav>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        
+    $(document).ready(function() {
+        $("a").click(function(event) {
+            // create variable that adds the appropriate css style to the <a> element
+            var my_id = event.target.id; // get the id that triggered the event
+            desired_class = "animation start-".concat(my_id);
+            $('#special-div').removeClass().addClass(desired_class);
+            // alert($('#special-div').hasClass(desired_class));
+        });
+    });
+    
+    </script>
     {% endblock %}
 
     {% block content %}

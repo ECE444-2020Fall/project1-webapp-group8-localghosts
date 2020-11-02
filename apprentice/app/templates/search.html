@@ -14,7 +14,7 @@
 </div>
 
 {% if is_search_results %}
-<div class=num-res>Search results: {{num_res}}</div>
+<div class=num-res>Search results: {{recipes | length}}</div>
 {% for recipe in recipes %}
 {% include '_search.html' %}
 {% endfor %}

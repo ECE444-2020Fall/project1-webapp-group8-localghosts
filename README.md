@@ -24,6 +24,11 @@ docker-compose up --build
 # ctrl-c to kill
 ```
 
+**Note**: There are currently two **docker-compose.yml** files: [docker-compose.yml](docker-compose.yml) and [docker-compose2.yml](docker-compose2.yml).
+This command will trigger the [docker-compose.yml](docker-compose.yml) file which mounts the code as a volume. Since this project is currently in a *developmental state*, we will keep this file for now as it makes it more convenient for developers to makes changes to the code and quickly see them appear on the client browser.
+
+**When the app is ready for beta release the old [docker-compose2.yml](docker-compose2.yml) file will be used.**
+
 Note: the app is currently configured to run on the default Flask development server, but in the future it would be wise to deploy using a WSGI server (like [this](https://github.com/tiangolo/uwsgi-nginx-flask-docker) or [this](https://github.com/tiangolo/meinheld-gunicorn-flask-docker))
 
 ### Restarting a single service

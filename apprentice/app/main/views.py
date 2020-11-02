@@ -35,12 +35,12 @@ def index():
 @main.route("/search", methods=["GET", "POST"])
 def search():
     """
-    #Returns the rendered template search.html
+    Returns the rendered template search.html
 
-    #   The search page will display recipes from the database given a query in the search box
+       The search page will display recipes from the database given a query in the search box
 
-    #   Note: for now the search will only display 'search results' as cards for display
-    #   No query is given yet
+       Note: for now the search will only display 'search results' as cards for display
+       No query is given yet
     """
 
     # get 50 recipes:
@@ -50,12 +50,10 @@ def search():
 
     if recipes != []:
         is_recipes = True
-    num_results = len(recipes)
 
     return render_template(
         "search.html",
         is_search_results=is_recipes,
-        num_res=num_results,
         recipes=recipes,
     )
 
