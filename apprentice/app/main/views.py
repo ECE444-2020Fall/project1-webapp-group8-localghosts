@@ -51,7 +51,8 @@ def search():
         name=recipe_name,
         image=recipe_pic,
         url=recipe_url,
-        description=recipe_desc    
+        description=recipe_desc,
+        recipe=Recipe.get_single_recipe()   
     )
 
 

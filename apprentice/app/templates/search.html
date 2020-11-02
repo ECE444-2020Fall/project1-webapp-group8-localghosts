@@ -9,7 +9,6 @@
 
 {% block page_content %} 
 
-
 <div class=nav-container>
     <input class="search-bar" type="text" placeholder="Find a Recipe...">
     <button type="submit" class="btn btn-primary btn-lg">Search</button>
@@ -27,14 +26,15 @@ more html below to a seperate file... use include to create multiple cards -->
         </div>
 
         <div class=recipe-pic>
-            <img src={{image}} alt="Recipe Image" width="500" height="600">
+            <img src={{image}} alt="Recipe Image">
         </div>
     </div>
     <div class=recipe-desc> <b>Description:</b> {{description}} </div>
 
 </div>
-
 {% endif %}
+
+<div>{{recipe}}</div>
 {% endblock %}
 
 

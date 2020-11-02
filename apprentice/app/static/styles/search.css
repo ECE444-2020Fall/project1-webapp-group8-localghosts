@@ -30,6 +30,11 @@
     flex-direction: column;
 }
 
+.recipe-pic{
+    width: 100%;
+    height: auto;
+}
+
 .recipe-desc{
     margin: 2px;
     width: auto;
