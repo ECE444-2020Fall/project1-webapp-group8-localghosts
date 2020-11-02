@@ -1,0 +1,11 @@
+version: "3.8"
+
+# This file extends and overrides configuration in docker-compose.yml if
+# both are passed in to `docker-compose up` like mentioned in the README
+# See docs for explanation if you're curious https://docs.docker.com/compose/extends/
+services:
+  app:
+    volumes:
+      - "./apprentice:/usr/src/app"
+    environment: 
+      - "FLASK_ENV=development"

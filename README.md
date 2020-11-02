@@ -26,17 +26,16 @@ docker-compose up --build
 
 Note: the app is currently configured to run on the default Flask development server, but in the future it would be wise to deploy using a WSGI server (like [this](https://github.com/tiangolo/uwsgi-nginx-flask-docker) or [this](https://github.com/tiangolo/meinheld-gunicorn-flask-docker))
 
-### Restarting a single service
+### Running the full application in development mode
 
-Once the entire app is up and running, you can restart individual services (e.g. when making changes to the Flask `app` without having to restart the `recipes` elasticsearch) as follows:
+Also provided in this repo is a `docker-compose.dev.yml` file, which can be used as an override to watch your filesystem for changes and automatically restart the flask app if any are detected. This means you can run the below command once and not have to rebuild/restart the containers every time you make a change to your flask app:
 
 ```sh
-### TERMINAL 1 ###
-# previous docker-compose up --build is still running
+# Build and run in foreground with the development configuration
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
-### TERMINAL 2 ###
-docker-compose up --build app  # to rebuild and run the 'app' service
-# ctrl-c to kill just the new service
+# The flask app should restart every time you re-save a file now
+# ctrl-c to kill as usual
 ```
 
 ## How to test
