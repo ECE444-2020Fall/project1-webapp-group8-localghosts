@@ -35,11 +35,11 @@
     flex-direction: column;
 }
 
-img{
+img {
     content: ' ';
     display: inline-block;
     position: relative;
-    background-repeat: no-repeat ;
+    background-repeat: no-repeat;
     height: 100%;
     width: 100%;
     background-image: url(https://static.thenounproject.com/png/1422994-200.png);
