@@ -1,3 +1,6 @@
+import json
+import os
+
 from flask import current_app, redirect, render_template, session, url_for
 
 from .. import db
@@ -31,7 +34,21 @@ def index():
 
 @main.route("/search", methods=["GET", "POST"])
 def search():
-    return render_template("search.html")
+    """
+    Returns the rendered template search.html
+
+       The search page will display recipes from the database given a query in the search box
+
+       Note: for now the search will only display 'search results' as cards for display
+       No query is given yet
+    """
+
+    # get 50 recipes:
+    recipes = []
+    for i in range(5):
+        recipes += Recipe.get_multi_recipe_paged(page=i, per_page=10)
+
+    return render_template("search.html", recipes=recipes)
 
 
 @main.route("/fridge", methods=["GET", "POST"])

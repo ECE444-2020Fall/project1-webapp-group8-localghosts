@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap');
+
+.nav-container {
+    margin-left: 8px;
+}
+
+.results-container {
+    margin: 20px;
+    height: auto;
+    width: auto;
+    background-color: #FEEFDD;
+    /* light cream */
+    border: none;
+    border-radius: 5px;
+}
+
+.num-res {
+    margin-top: 10px;
+    margin-left: 8px;
+    font-weight: bold;
+
+}
+
+.recipe-name {
+    font-family: 'Montserrat', sans-serif;
+    width: auto;
+    height: auto;
+    text-align: center;
+
+}
+
+.column1 {
+    margin: 2px;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+img {
+    content: ' ';
+    display: inline-block;
+    position: relative;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+    background-image: url(https://static.thenounproject.com/png/1422994-200.png);
+}
+
+.recipe-pic {
+    height: 200px;
+    width: 300px;
+    display: inline;
+    text-align: center;
+    /* margin-left: 24px;
+    margin-top: 3px;
+    margin-bottom: 3px; */
+}
+
+.recipe-desc {
+    font-family: 'Open Sans', sans-serif;
+    margin: 2px;
+    width: auto;
+    height: auto;
+    display: inline-flex;
+    flex-direction: column;
+}
