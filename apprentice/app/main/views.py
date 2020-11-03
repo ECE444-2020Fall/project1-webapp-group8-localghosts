@@ -53,8 +53,7 @@ def search():
 
     return render_template(
         "search.html",
-        is_search_results=is_recipes,
-        recipes=recipes,
+        recipes=recipes
     )
 
 
