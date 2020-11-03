@@ -51,10 +51,7 @@ def search():
     if recipes != []:
         is_recipes = True
 
-    return render_template(
-        "search.html",
-        recipes=recipes
-    )
+    return render_template("search.html", recipes=recipes)
 
 
 @main.route("/fridge", methods=["GET", "POST"])
