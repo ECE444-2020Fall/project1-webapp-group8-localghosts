@@ -47,7 +47,7 @@ def search():
     recipes = []
     for i in range(5):
         recipes += Recipe.get_multi_recipe_paged(page=i, per_page=10)
-        
+
     return render_template("search.html", recipes=recipes)
 
 
