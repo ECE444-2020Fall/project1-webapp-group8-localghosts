@@ -48,13 +48,7 @@ def search():
     for i in range(5):
         recipes += Recipe.get_multi_recipe_paged(page=i, per_page=10)
 
-    if recipes != []:
-        is_recipes = True
-
-    return render_template(
-        "search.html",
-        recipes=recipes
-    )
+    return render_template("search.html", recipes=recipes)
 
 
 @main.route("/fridge", methods=["GET", "POST"])
