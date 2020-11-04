@@ -26,6 +26,11 @@
             <a id="search" href="{{ url_for('main.search') }}">Search</a>
             <a id="my-fridge" href="{{ url_for('main.fridge') }}">My Fridge</a>
             <a id="grocery-list" href="{{ url_for('main.list') }}">Grocery List</a>
+            {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+            {% else %}
+            <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+            {% endif %}
             <div id="special-div" class="animation "></div>
         </nav>
     </div>
