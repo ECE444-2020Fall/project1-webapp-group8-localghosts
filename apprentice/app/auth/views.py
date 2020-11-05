@@ -1,5 +1,3 @@
-import sys
-
 from flask import flash, redirect, render_template, request, url_for
 from flask_login import login_required, login_user, logout_user
 
