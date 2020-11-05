@@ -20,6 +20,12 @@
     <a href="{{ url_for('main.index') }}">
         <h1>APPrentice</h1>
     </a>
+        {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
     <div>
         <nav>
             <a id="home" href="{{ url_for('main.index') }}">Home</a>
@@ -27,13 +33,19 @@
             <a id="my-fridge" href="{{ url_for('main.fridge') }}">My Fridge</a>
             <a id="grocery-list" href="{{ url_for('main.list') }}">Grocery List</a>
             {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('auth.logout') }}">Sign Out</a></li>
+            <p>Signed in as:</p>
+            <br>
+            <p>{{ current_user.username}}</p>
+            <br>
+            <a href="{{ url_for('auth.logout') }}">Sign Out</a>
             {% else %}
-            <li><a href="{{ url_for('auth.login') }}">Sign In</a></li>
+            <a href="{{ url_for('auth.login') }}">Sign In</a>
+            <a href="{{ url_for('auth.signup') }}">Create an account</a>
             {% endif %}
             <div id="special-div" class="animation "></div>
         </nav>
     </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {

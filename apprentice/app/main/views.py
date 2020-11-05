@@ -2,6 +2,7 @@ import json
 import os
 
 from flask import current_app, redirect, render_template, session, url_for
+from flask_login import login_required
 
 from .. import db
 from ..models import User
@@ -52,10 +53,12 @@ def search():
 
 
 @main.route("/fridge", methods=["GET", "POST"])
+@login_required
 def fridge():
     return render_template("fridge.html")
 
 
 @main.route("/list", methods=["GET", "POST"])
+@login_required
 def list():
     return render_template("list.html")
