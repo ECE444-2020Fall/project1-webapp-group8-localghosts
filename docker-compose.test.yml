@@ -5,6 +5,6 @@ version: "3.8"
 # See docs for explanation if you're curious https://docs.docker.com/compose/extends/
 services:
   app:
-    command: "test"
+    command: [ "flask", "test" ]
     environment:
       - "WAIT_AFTER_HOSTS=5"

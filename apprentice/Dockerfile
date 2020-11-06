@@ -16,9 +16,9 @@ RUN echo "db.create_all(); exit()" | flask shell
 # Create startup script to wait for other containers before starting server
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
 RUN chmod +x /wait \
-    && printf '#!/bin/bash\n/wait && flask "$@"' >> /wait-flask \
-    && chmod +x /wait-flask
+    && printf '#!/bin/bash\n/wait && "$@"' >> /wait-then \
+    && chmod +x /wait-then
 
 # Wait for $WAIT_HOSTS to be up and then start flasking
-ENTRYPOINT [ "/wait-flask" ]
-CMD [ "run", "--host=0.0.0.0" ]
+ENTRYPOINT [ "/wait-then" ]
+CMD [ "flask", "run", "--host=0.0.0.0" ]
