@@ -1,0 +1,26 @@
+version: "3.8"
+
+# This file extends and overrides configuration in docker-compose.yml if
+# both are passed in to `docker-compose up` like mentioned in the README
+# See docs for explanation if you're curious https://docs.docker.com/compose/extends/
+services:
+  # Add deployment config for pre-existing services
+  app:
+    command: [ "gunicorn", "apprentice:app", "--bind=0.0.0.0:5000", "--workers=2" ]
+    deploy:
+      restart_policy:
+        condition: on-failure
+  recipes:
+    deploy:
+      restart_policy:
+        condition: on-failure
+
+  # Add nginx reverse proxy/load balancing service
+  nginx:
+    image: local/apprentice/nginx:latest
+    build: ./nginx
+    ports:
+      - "80:80"
+    deploy:
+      restart_policy:
+        condition: on-failure

@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   app:
+    image: local/apprentice/app:latest
     build: ./apprentice
     restart: on-failure
     ports:
@@ -10,6 +11,7 @@ services:
       - "ELASTICSEARCH_URL=http://recipes:9200/"
       - "WAIT_HOSTS=recipes:9200"
   recipes:
+    image: local/apprentice/recipe-db:latest
     build: ./recipe-db
     restart: on-failure
     ports:
