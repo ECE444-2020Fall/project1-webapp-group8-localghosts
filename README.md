@@ -1,6 +1,7 @@
 # APPrentice
 
 This is a repository for Group 8 (Localghosts)'s ECE444 project. 
+The application is deployed to Azure and can be found here: http://localghosts.eastus.cloudapp.azure.com/
 
 ## How to run
 
@@ -10,21 +11,19 @@ These instructions assume you're in the root directory of the repo:
 cd path/to/project1-webapp-group8-localghosts
 ```
 
-### Running the full application
+### Running the full application in production mode
 
-You can run the full app using docker-compose:
+You can run the full app using docker-compose (alternatively run it in a single-node swarm to simulate something closer to the production environment):
 
 ```sh
-# Build and run in foreground
-docker-compose up --build
+# Pull and run in foreground
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
 
-# Flask app should now be accessible at localhost:5000 once Elasticsearch is up
-# Elasticsearch should be accessible at localhost:9200 (takes a few seconds to start up, please wait)
-
+# Application should be accessible at localhost:80 once the necessary services are up
 # ctrl-c to kill
 ```
 
-Note: the app is currently configured to run on the default Flask development server, but in the future it would be wise to deploy using a WSGI server (like [this](https://github.com/tiangolo/uwsgi-nginx-flask-docker) or [this](https://github.com/tiangolo/meinheld-gunicorn-flask-docker))
+The app is sitting behind an `nginx` reverse proxy and run with a `gunicorn` WSGI server. To hit the app (or other services) directly, see the development mode instructions in the next section.
 
 ### Running the full application in development mode
 
@@ -33,6 +32,9 @@ Also provided in this repo is a `docker-compose.dev.yml` file, which can be used
 ```sh
 # Build and run in foreground with the development configuration
 docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+
+# Flask app should now be accessible at localhost:5000 once Elasticsearch is up
+# Elasticsearch should be accessible at localhost:9200 (takes a few seconds to start up, please wait)
 
 # The flask app should restart every time you re-save a file now
 # ctrl-c to kill as usual
