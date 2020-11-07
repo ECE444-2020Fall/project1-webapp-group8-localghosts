@@ -1,0 +1,94 @@
+name: Merge Automation
+
+# Triggered on merge into develop or master. Technically could be triggered on any push event
+# to our branches, but they're protected so the only "push" events are merges.
+# Doc: https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows#push
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+# Two jobs: build images, then deploy to AWS
+jobs:
+  # Build the images and push them to docker hub
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build images
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.prod.yml build
+
+      - name: Push to DockerHub
+        run: |
+          docker-compose -f docker-compose.yml push
+          docker-compose -f docker-compose.prod.yml push
+
+  # Ensure system's set up, then push the new services onto it
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USERNAME }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            # If docker is already installed, successfully exit this job
+            command -v docker >/dev/null 2>&1 && exit 0
+
+            # Else, install docker
+            curl -sSL https://get.docker.com | sh
+            sudo usermod -aG docker $USER
+
+            # And install docker-compose
+            sudo curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
+            sudo chmod +x /usr/local/bin/docker-compose
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Copy over compose files
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USERNAME }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          source: "docker-compose*"
+          target: ${{ secrets.PROD_SSH_PATH }}
+
+      - name: Build and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.PROD_SSH_HOST }}
+          username: ${{ secrets.PROD_SSH_USERNAME }}
+          key: ${{ secrets.PROD_SSH_KEY }}
+          script: |
+            # Start a swarm if we're not already in one
+            if [ "$(docker info --format '{{.Swarm.LocalNodeState}}')" == "inactive" ]; then
+                docker swarm init
+            fi
+
+            # Spin up the services
+            docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml localghosts
+
+            # Clean up old stuff
+            docker system prune -f
+            rm docker-compose*
