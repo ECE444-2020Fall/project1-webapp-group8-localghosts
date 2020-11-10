@@ -1,7 +1,7 @@
 import json
 import os
 
-from flask import current_app, redirect, render_template, session, url_for
+from flask import current_app, redirect, render_template, session, url_for, abort
 from flask_login import login_required
 
 from .. import db
@@ -50,6 +50,14 @@ def search():
         recipes += Recipe.get_multi_recipe_paged(page=i, per_page=10)
 
     return render_template("search.html", recipes=recipes)
+
+
+@main.route("/recipe/<recipe_id>", methods=["GET", "POST"])
+def recipe(recipe_id):
+    recipe = Recipe.get_recipe_by_id(recipe_id)
+    if not recipe:
+        abort(404)
+    return render_template("recipe.html", recipe=recipe)
 
 
 @main.route("/fridge", methods=["GET", "POST"])

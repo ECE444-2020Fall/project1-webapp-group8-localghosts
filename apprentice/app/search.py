@@ -86,3 +86,13 @@ class Recipe(Document):
         )
 
     ### TODO: CUSTOM SEARCH METHODS ###
+    @classmethod
+    def get_recipe_by_id(cls, recipe_id):
+        """Return a single Recipe object from Elasticsearch by it's ID
+
+        :rtype: Recipe, or None if not found
+        """
+        try:
+            return cls.get(using=current_app.elasticsearch, id=recipe_id)
+        except Exception:
+            return None
