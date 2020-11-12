@@ -52,6 +52,11 @@ class Recipe(Document):
     class Index:
         name = "recipes"
 
+    @classmethod
+    def _get_using(cls, using=None):
+        """Override base method for specifying our current Elasticsearch connection"""
+        return current_app.elasticsearch
+
     ### THESE ARE SAMPLE METHODS FOR YOU TO GET DATA FROM ###
 
     @classmethod
@@ -60,7 +65,7 @@ class Recipe(Document):
 
         :rtype: Recipe
         """
-        return cls.search(using=current_app.elasticsearch).execute()[0]
+        return cls.search().execute()[0]
 
     @classmethod
     def get_multi_recipe_paged(cls, page=0, per_page=10):
@@ -79,11 +84,7 @@ class Recipe(Document):
         :param per_page: The size of each page of results to get
         :rtype: List[Recipe]
         """
-        return list(
-            cls.search(using=current_app.elasticsearch)[
-                page * per_page : (page + 1) * per_page
-            ].execute()
-        )
+        return list(cls.search()[page * per_page : (page + 1) * per_page].execute())
 
     ### TODO: CUSTOM SEARCH METHODS ###
     @classmethod
@@ -93,7 +94,7 @@ class Recipe(Document):
         :rtype: Recipe, or None if not found
         """
         try:
-            return cls.get(using=current_app.elasticsearch, id=recipe_id)
+            return cls.get(recipe_id)
         except Exception:
             return None
 
@@ -108,9 +109,7 @@ class Recipe(Document):
         :rtype: List[Recipe]
         """
         return list(
-            cls.search(using=current_app.elasticsearch)[
-                page * per_page : (page + 1) * per_page
-            ]
+            cls.search()[page * per_page : (page + 1) * per_page]
             .query("match", name=query)
             .execute()
         )

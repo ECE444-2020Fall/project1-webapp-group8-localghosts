@@ -31,3 +31,20 @@ class RecipeSearchTestCase(unittest.TestCase):
         # Make sure they're unique
         recipe_ids = {r.meta.id for r in recipes}
         self.assertEqual(len(recipe_ids), 50)
+
+    def test_get_recipe_by_id(self):
+        recipe_1 = Recipe.get_single_recipe()
+        recipe_2 = Recipe.get_recipe_by_id(recipe_1.meta.id)
+        self.assertEqual(recipe_1, recipe_2)
+
+    def test_get_recipes_by_name(self):
+        # Check that it finds stuff that exists
+        for query in ["chicken", "salad"]:
+            results = Recipe.get_recipes_by_name(query, per_page=5)
+            for result in results:
+                self.assertIn(query, result.name.lower())
+
+        # Check that it doesn't find stuff that doesn't exist
+        self.assertFalse(
+            Recipe.get_recipes_by_name("somethingthatdefinitelydoesnotexist")
+        )
