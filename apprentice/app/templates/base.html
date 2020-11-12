@@ -16,6 +16,7 @@
 {% endblock %}
 
 <body>
+    
     {% block navbar %}
     <a href="{{ url_for('main.index') }}">
         <h1>APPrentice</h1>
@@ -28,7 +29,7 @@
     </div>
     {% endfor %}
 
-    <div>
+    <div class="container-fluid">
         <nav class="navbar">
             <a id="home" href="{{ url_for('main.index') }}">Home</a>
             <a id="search" href="{{ url_for('main.search') }}">Search</a>
@@ -41,21 +42,14 @@
                 {% if current_user.is_authenticated %}
                 <h4>Signed in as {{ current_user.username }}</h4>
                 {% else %}
-                <a href="{{ url_for('auth.login') }}">Sign In</a>
+                <a href="{{url_for('auth.login')}}"> <span class="glyphicon glyphicon-log-in"></span> Login</a>
                 {% endif %}
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-menu-down"></span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('auth.logout') }}">Sign Out</a>
-                        {% else %}
-                        {% endif %}
-                        <a href="{{ url_for('auth.signup') }}">Create Account</a>
-                    </div>
-                </li>
+                
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('auth.logout') }}">Sign Out</a>
+                {% else %}
+                {% endif %}
+                <a href="{{ url_for('auth.signup') }}"> <span class="glyphicon glyphicon-user"></span> Sign up</a>
             </ul>
         </nav>
     </div>
@@ -82,7 +76,9 @@
     {% endfor %}
 
     {% block content %}
+
     {% block page_content %}
+
     {% endblock %}
 
     {% endblock %}

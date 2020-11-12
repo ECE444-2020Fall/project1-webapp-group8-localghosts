@@ -144,17 +144,27 @@ h1 {
     font-family: 'Turret Road', cursive;
 }
 
-p {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-    color: #ecf0f1;
-    font-family: 'Cherry Swash', cursive;
-    font-size: 16px;
-}
-
 span {
     /* color: #2BD6B4; */
     display: inline-block;
+}
+
+.dropdown-menu{
+    width: auto;
+    height: auto;
+    text-align: center;
+    background-color: #d4af85;
+}
+
+.dropdown-menu a{
+    font-size: 10px;
+    text-align: center;
+    margin: 0px;
+}
+
+.nav-link .dropdown-toggle{
+    margin: 0px;
+    padding: 0px;
+    width: 50px;
+    height: 50px;
 }

@@ -16,6 +16,10 @@ class ErrorPageTestCase(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
-    def testErrorPage(self):
-        response = self.app.test_client().get("/blurr")
-        self.assertEqual(response.status_code, 404)
+    def testLoginPage(self):
+        response = self.app.test_client().get('/auth/login')
+        self.assertEqual(response.status_code, 200)
+
+    def testGroceryListPage(self):
+        response = self.app.test_client().get('/auth/signup')
+        self.assertEqual(response.status_code, 200)
