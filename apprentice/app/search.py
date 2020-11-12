@@ -96,3 +96,21 @@ class Recipe(Document):
             return cls.get(using=current_app.elasticsearch, id=recipe_id)
         except Exception:
             return None
+
+    @classmethod
+    def get_recipes_by_name(cls, query, page=0, per_page=10):
+        """Return a list of Recipes, considering pagination, whose names
+        match the provided query
+
+        :param query: The recipe name to (partly) match
+        :param page: The page of results to get
+        :param per_page: The size of each page of results to get
+        :rtype: List[Recipe]
+        """
+        return list(
+            cls.search(using=current_app.elasticsearch)[
+                page * per_page : (page + 1) * per_page
+            ]
+            .query("match", name=query)
+            .execute()
+        )

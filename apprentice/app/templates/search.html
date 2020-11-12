@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block head %}
 {{ super() }}
@@ -9,8 +10,7 @@
 {% block page_content %}
 
 <div class=nav-container>
-    <input class="search-bar" type="text" placeholder="Find a Recipe...">
-    <button type="submit" class="btn btn-primary btn-lg">Search</button>
+    {{ wtf.quick_form(form) }}
 </div>
 
 {% if recipes is defined and recipes|length > 0 %}

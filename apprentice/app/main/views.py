@@ -1,30 +1,29 @@
 import json
 import os
 
-from flask import current_app, redirect, render_template, session, url_for, abort
+from flask import (
+    abort,
+    current_app,
+    redirect,
+    render_template,
+    request,
+    session,
+    url_for,
+)
 from flask_login import login_required
 
 from .. import db
 from ..models import User
 from ..search import Recipe
 from . import main
-from .forms import NameForm
+from .forms import AdvancedSearchForm, SearchForm
 
 
 @main.route("/", methods=["GET", "POST"])
 def index():
-    form = NameForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.name.data).first()
-        if user is None:
-            user = User(username=form.name.data)
-            db.session.add(user)
-            db.session.commit()
-            session["known"] = False
-        else:
-            session["known"] = True
-        session["name"] = form.name.data
-        return redirect(url_for(".index"))
+    form = SearchForm()
+    if request.method == "POST" or form.validate_on_submit():
+        return redirect(url_for(".search", _method="GET", query=form.query.data))
     return render_template(
         "index.html",
         form=form,
@@ -43,13 +42,19 @@ def search():
        Note: for now the search will only display 'search results' as cards for display
        No query is given yet
     """
-
-    # get 50 recipes:
+    form = AdvancedSearchForm()
     recipes = []
-    for i in range(5):
-        recipes += Recipe.get_multi_recipe_paged(page=i, per_page=10)
 
-    return render_template("search.html", recipes=recipes)
+    if request.method == "GET" and "query" in request.args:
+        # i.e. if coming from the index page
+        recipes = Recipe.get_recipes_by_name(request.args["query"], page=0, per_page=50)
+    elif request.method == "POST" or form.validate_on_submit():
+        # i.e. if coming from an advanced search
+        recipes = Recipe.get_recipes_by_name(
+            form.recipe.query.data, page=0, per_page=50
+        )
+
+    return render_template("search.html", recipes=recipes, form=form)
 
 
 @main.route("/recipe/<recipe_id>", methods=["GET", "POST"])
