@@ -149,20 +149,20 @@ span {
     display: inline-block;
 }
 
-.dropdown-menu{
+.dropdown-menu {
     width: auto;
     height: auto;
     text-align: center;
     background-color: #d4af85;
 }
 
-.dropdown-menu a{
+.dropdown-menu a {
     font-size: 10px;
     text-align: center;
     margin: 0px;
 }
 
-.nav-link .dropdown-toggle{
+.nav-link .dropdown-toggle {
     margin: 0px;
     padding: 0px;
     width: 50px;
