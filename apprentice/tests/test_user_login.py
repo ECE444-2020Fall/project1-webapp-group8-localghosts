@@ -17,9 +17,9 @@ class ErrorPageTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def testLoginPage(self):
-        response = self.app.test_client().get('/auth/login')
+        response = self.app.test_client().get("/auth/login")
         self.assertEqual(response.status_code, 200)
 
     def testGroceryListPage(self):
-        response = self.app.test_client().get('/auth/signup')
+        response = self.app.test_client().get("/auth/signup")
         self.assertEqual(response.status_code, 200)
