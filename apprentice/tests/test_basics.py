@@ -36,7 +36,4 @@ class DatabaseTestCase(unittest.TestCase):
         self.app_context.pop()
 
     def test_db_tables_set_up(self):
-        self.assertTrue(
-            "roles" in db.metadata.tables.keys()
-            and "users" in db.metadata.tables.keys()
-        )
+        self.assertTrue("users" in db.metadata.tables.keys())

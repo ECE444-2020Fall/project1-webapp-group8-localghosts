@@ -32,18 +32,15 @@
     </div>
 </div>
 
-<div class="row">
-
-    <div class="col-md-6 text-center">
-        <a class="btn btn-primary btn-xlg text-center" href="{{ url_for('main.fridge') }}" role="button">Manage My Fridge</a>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <a class="btn btn-primary btn-xlg text-center" href="{{ url_for('main.fridge') }}" role="button">Manage My Fridge</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <a class="btn btn-primary btn-xlg text-center" href="{{ url_for('main.list') }}" role="button">My Grocery List</a>
+        </div>
     </div>
-
-
-    <div class="col-md-6 text-center">
-        <a class="btn btn-primary btn-xlg text-center" href="{{ url_for('main.list') }}" role="button"> My Grocery List</a>
-    </div>
-
-
 </div>
 
 {% endblock %}

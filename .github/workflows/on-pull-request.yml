@@ -28,7 +28,7 @@ jobs:
       - name: Format python code with isort (for import ordering) and black (for everything else)
         run: |
           python -m pip install --upgrade pip
-          pip install black isort
+          pip install isort black
           isort .
           black .
 
@@ -37,7 +37,9 @@ jobs:
 
       - name: Check for modified files
         id: git-check
-        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+        run: |
+          git update-index -q --refresh
+          echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
 
       - name: Commit and push back changes
         if: steps.git-check.outputs.modified == 'true'
