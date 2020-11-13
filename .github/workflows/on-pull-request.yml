@@ -2,7 +2,7 @@ name: Pull Request Automation
 
 # Triggered on create pull request and re-triggered for every new commit that's pushed to the branch with a PR open
 # Doc: https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows#pull_request
-on: pull_request
+on: [pull_request, workflow_dispatch]
 
 # Two jobs: lint/format, and then run tests
 jobs:
@@ -19,11 +19,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
-      
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Format python code with isort (for import ordering) and black (for everything else)
         run: |
