@@ -42,6 +42,9 @@ jobs:
 
   # Ensure system's set up, then push the new services onto it
   deploy:
+    # We'll run this job only if the other one successfully completes
+    needs: build
+    
     runs-on: ubuntu-latest
 
     steps:
