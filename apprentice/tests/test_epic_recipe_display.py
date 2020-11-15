@@ -20,12 +20,10 @@ class RecipeDisplayTestCase(unittest.TestCase):
     def test_app_exists(self):
         # TODO: replace -- this is a dummy test
         self.assertFalse(current_app is None)
-    
+
     def test_recipe_exists(self):
         recipe = Recipe.get_single_recipe()
-        response = self.app.test_client().get(
-            f"/recipe/{recipe.meta.id}"
-        )
+        response = self.app.test_client().get(f"/recipe/{recipe.meta.id}")
         self.assertEqual(response.status_code, 200)
 
     def test_recipe_not_exists(self):
