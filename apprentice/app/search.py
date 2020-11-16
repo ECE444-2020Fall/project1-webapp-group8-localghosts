@@ -11,7 +11,7 @@ class Recipe(Document):
     :param url: A string, the URL from where the recipe was sourced
     :param source: A string, the original publisher of the recipe
 
-    :param calories: An int, the calorie count of the recipe. randint(0, 2000)
+    :param calories: An int, the calorie count of the recipe. randint(0, 1400)
     :param carbohydrate: An int, the carb count of the recipe. randint(0, 75)
     :param fat: An int, the fat count of the recipe. randint(0, 100)
     :param protein: An int, the protein count of the recipe. randint(0, 50)
@@ -26,6 +26,8 @@ class Recipe(Document):
     :param creator: An optional string, the original author of the recipe
     :param recipeCategory: An optional string, the type of recipe
     :param recipeInstructions: An optional string, the recipe instructions
+
+    :param tags: An optional string array containing any of ["vegetarian", "vegan", "gluten-free"]
     """
 
     # These fields should be identical to those in recipe-db/loading-scripts/recipe-mapping.json
@@ -47,6 +49,7 @@ class Recipe(Document):
     creator = Text(fields={"keyword": Keyword()})
     recipeCategory = Text(fields={"keyword": Keyword()})
     recipeInstructions = Text(fields={"keyword": Keyword()})
+    tags = Text(fields={"keyword": Keyword()})
 
     # The Index inner class is where we define connection config
     class Index:
