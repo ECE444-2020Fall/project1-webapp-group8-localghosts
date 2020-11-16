@@ -12,6 +12,8 @@ from ..models import User
 
 
 class LoginForm(FlaskForm):
+    """Form for logging in a user."""
+
     email = StringField("Email", validators=[DataRequired(), Length(1, 64), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     remember_me = BooleanField("Keep me logged in")
@@ -19,6 +21,8 @@ class LoginForm(FlaskForm):
 
 
 class SignupForm(FlaskForm):
+    """Form for creating a new user."""
+
     email = StringField("Email", validators=[DataRequired(), Length(1, 64), Email()])
     username = StringField(
         "Username",
@@ -44,9 +48,19 @@ class SignupForm(FlaskForm):
     submit = SubmitField("Sign up")
 
     def validate_email(self, field):
+        """Checks whether or not the e-mail exists in the database.
+
+        Raises:
+            ValidationError: If the e-mail already exists.
+        """
         if User.query.filter_by(email=field.data).first():
             raise ValidationError("Email already registered.")
 
     def validate_username(self, field):
+        """Checks whether or not the username exists in the database.
+
+        Raises:
+            ValidationError: If the username already exists.
+        """
         if User.query.filter_by(username=field.data).first():
             raise ValidationError("Username already in use.")

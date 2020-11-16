@@ -8,10 +8,10 @@ from urllib.request import urlopen
 
 from elasticsearch import Elasticsearch, helpers
 
-### INPUT CONSTANTS ###
+# INPUT CONSTANTS
 RECIPES_URL = "https://s3.amazonaws.com/openrecipes/20170107-061401-recipeitems.json.gz"
 
-### PROCESSING CONSTANTS ###
+# PROCESSING CONSTANTS
 # These constants are just for demo purposes, in reality we would have to manually
 # check each and every recipe to ensure their correctness.
 RE_GLUTEN_FREE = re.compile(
@@ -68,12 +68,20 @@ RE_VEGETARIAN = re.compile(
 )
 RE_VEGAN = re.compile("|".join(["milk", "cream", "cheese", "egg"]), re.IGNORECASE)
 
-### OUTPUT CONSTANTS ###
+# OUTPUT CONSTANTS
 ES_INDEX = "recipes"
 ES_MAPPING = {}  # will load from ./recipe-mapping.json
 
 
 def download_file(url: str) -> List[dict]:
+    """Reads the openRecipes json and converts it to a list of recipes (python dicts)
+
+    Args:
+        url: A string with the url of the openRecipes json.
+
+    Returns:
+        A list of recipes (python  dictionaries) read from the json.
+    """
     recipes = []
     with urlopen(url) as f:
         with gzip.GzipFile(fileobj=BytesIO(f.read())) as g:
@@ -84,6 +92,17 @@ def download_file(url: str) -> List[dict]:
 
 
 def process_recipe(recipe: dict) -> dict:
+    """Processes a recipe (dictionary):
+    - Removes unwanted fields
+    - Adds tags for dietary restrictions
+    - Converts ingredients into an array
+    - Adds Nutritional Information data
+
+    Args:
+        recipe: A python dictionary representing the recipe to be processed
+    Return:
+        A updated python dictionary for the processed recipe information
+    """
     # Remove unwanted fields
     for key, value in list(recipe.items()):
         if key not in ES_MAPPING["properties"] or value is None:
@@ -120,6 +139,13 @@ def process_recipe(recipe: dict) -> dict:
 
 
 def load_elastic(index: str, mapping: dict, docs: List[dict]):
+    """Loads a list of python dicts into elastic search.
+
+    Args:
+        index: The elasticsearch index to load into ("recipes" in our case)
+        mapping: The elasticsearch mapping to use (in our case this will load from ./recipe-mapping.json)
+        docs: The data (list of dictionaries) to load into elastic search. In our case, this is the processed recipe information.
+    """
     # Connect to Elastic and (re)create index
     elastic_client = Elasticsearch(
         [{"host": "localhost", "port": "9200"}], max_retries=10, retry_on_timeout=True

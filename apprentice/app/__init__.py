@@ -3,28 +3,30 @@ from elasticsearch import Elasticsearch
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
-from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 
+# Flask extensions
 login_manager = LoginManager()
 login_manager.session_protection = "strong"
 login_manager.login_view = "auth.login"
-
 bootstrap = Bootstrap()
-moment = Moment()
 db = SQLAlchemy()
 
 
 def create_app(config_name):
+    """Initializes and configures a Flask object.
+
+    Returns:
+        The configured Flask application object.
+
+    """
     app = Flask(__name__)
 
-    # Config init
+    # Config
     app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
 
     # Flask extension init
     bootstrap.init_app(app)
-    moment.init_app(app)
     login_manager.init_app(app)
     db.init_app(app)
 
