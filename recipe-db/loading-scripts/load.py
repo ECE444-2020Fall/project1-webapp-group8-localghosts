@@ -1,15 +1,72 @@
 import gzip
 import json
 import random
+import re
 from io import BytesIO
 from typing import List
 from urllib.request import urlopen
 
 from elasticsearch import Elasticsearch, helpers
 
+### INPUT CONSTANTS ###
 RECIPES_URL = "https://s3.amazonaws.com/openrecipes/20170107-061401-recipeitems.json.gz"
-ES_URL = "http://localhost:9200"
 
+### PROCESSING CONSTANTS ###
+# These constants are just for demo purposes, in reality we would have to manually
+# check each and every recipe to ensure their correctness.
+RE_GLUTEN_FREE = re.compile(
+    "|".join(
+        [
+            "bagel",
+            "barley" "bread",
+            "cake",
+            "flour",
+            "gluten",
+            "muffin",
+            "rye",
+            "wheat",
+        ]
+    ),
+    re.IGNORECASE,
+)
+# Inspired by https://github.com/imsky/wordlists/blob/master/nouns/meat.txt
+RE_VEGETARIAN = re.compile(
+    "|".join(
+        [
+            "alligator",
+            "beef",
+            "bison",
+            "buffalo",
+            "caribou",
+            "chicken",
+            "duck",
+            "elk",
+            "fish",
+            "goat",
+            "ham",
+            "lamb",
+            "pheasant",
+            "pepperoni",
+            "pork",
+            "prawn",
+            "quail",
+            "rabbit",
+            "salami",
+            "shrimp",
+            "salmon",
+            "steak",
+            "turkey",
+            "tuna",
+            "veal",
+            "venison",
+            "yak",
+        ]
+    ),
+    re.IGNORECASE,
+)
+RE_VEGAN = re.compile("|".join(["milk", "cream", "cheese", "egg"]), re.IGNORECASE)
+
+### OUTPUT CONSTANTS ###
 ES_INDEX = "recipes"
 ES_MAPPING = {}  # will load from ./recipe-mapping.json
 
@@ -30,18 +87,32 @@ def process_recipe(recipe: dict) -> dict:
         if key not in ES_MAPPING["properties"] or value is None:
             del recipe[key]
 
+    # Apply tags depending on recipe content
+    tags = []
+    body = recipe["name"] + recipe["ingredients"]
+    if not RE_GLUTEN_FREE.search(body):
+        tags.append("gluten-free")
+    if not RE_VEGETARIAN.search(body):
+        tags.append("vegetarian")
+        if not RE_VEGAN.search(body):
+            tags.append("vegan")  # treat as subset of vegetarian
+    if tags:
+        recipe["tags"] = tags
+
     # Split ingredients into an array
     recipe["ingredients"] = recipe["ingredients"].split("\n")
 
     # Add nutritional information; random data for now ¯\_(ツ)_/¯
     recipe.update(
-        calories=random.randint(0, 2000),
         carbohydrate=random.randint(0, 75),
         fat=random.randint(0, 100),
         protein=random.randint(0, 50),
     )
 
-    # TODO: additional processing?
+    # https://www.nal.usda.gov/fnic/how-many-calories-are-one-gram-fat-carbohydrate-or-protein
+    recipe["calories"] = 9 * recipe["fat"] + 4 * (
+        recipe["carbohydrate"] + recipe["protein"]
+    )
 
     return recipe
 
