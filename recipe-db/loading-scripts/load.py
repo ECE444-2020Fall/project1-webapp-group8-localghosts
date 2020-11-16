@@ -18,10 +18,12 @@ RE_GLUTEN_FREE = re.compile(
     "|".join(
         [
             "bagel",
-            "barley" "bread",
+            "barley",
+            "bread",
             "cake",
             "flour",
             "gluten",
+            "loaf",
             "muffin",
             "rye",
             "wheat",
