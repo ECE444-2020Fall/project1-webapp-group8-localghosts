@@ -1,5 +1,4 @@
 from elasticsearch_dsl import Document, Keyword, Short, Text
-from elasticsearch_dsl.response import Response
 from flask import current_app
 
 
@@ -60,7 +59,7 @@ class Recipe(Document):
         """Override base method for specifying our current Elasticsearch connection"""
         return current_app.elasticsearch
 
-    ### THESE ARE SAMPLE METHODS FOR YOU TO GET DATA FROM ###
+    # THESE ARE SAMPLE METHODS FOR YOU TO GET DATA FROM
 
     @classmethod
     def get_single_recipe(cls):
@@ -91,9 +90,9 @@ class Recipe(Document):
         Returns:
             A list of Recipe objects
         """
-        return list(cls.search()[page * per_page : (page + 1) * per_page].execute())
+        return list(cls.search()[page * per_page: (page + 1) * per_page].execute())
 
-    ### TODO: CUSTOM SEARCH METHODS ###
+    # TODO: CUSTOM SEARCH METHODS
     @classmethod
     def get_recipe_by_id(cls, recipe_id):
         """Return a single Recipe object from Elasticsearch by its ID
@@ -123,7 +122,7 @@ class Recipe(Document):
             a list of Recipe objects
         """
         return list(
-            cls.search()[page * per_page : (page + 1) * per_page]
+            cls.search()[page * per_page: (page + 1) * per_page]
             .query("match", name=query)
             .execute()
         )

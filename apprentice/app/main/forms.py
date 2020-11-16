@@ -4,11 +4,6 @@ from wtforms.fields.html5 import IntegerField, SearchField
 from wtforms.validators import DataRequired
 
 
-class NameForm(FlaskForm):
-    name = StringField("What is your name?", validators=[DataRequired()])
-    submit = SubmitField("Submit")
-
-
 class SearchForm(FlaskForm):
     """Form for searching for a recipe.
     """

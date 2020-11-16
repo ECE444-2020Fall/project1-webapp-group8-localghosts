@@ -11,10 +11,6 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     ELASTICSEARCH_URL = os.environ.get("ELASTICSEARCH_URL") or "http://localhost:9200"
 
-    @staticmethod
-    def init_app(app):
-        pass
-
 
 class DevelopmentConfig(Config):
     """Config class for development

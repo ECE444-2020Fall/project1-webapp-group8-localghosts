@@ -1,9 +1,5 @@
-import json
-import os
-
 from flask import (
     abort,
-    current_app,
     redirect,
     render_template,
     request,
@@ -12,8 +8,6 @@ from flask import (
 )
 from flask_login import login_required
 
-from .. import db
-from ..models import User
 from ..search import Recipe
 from . import main
 from .forms import AdvancedSearchForm, SearchForm
