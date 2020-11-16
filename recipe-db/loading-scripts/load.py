@@ -116,7 +116,9 @@ def process_recipe(recipe: dict) -> dict:
     has_bad_ingredients = True
     for ing in recipe["ingredients"]:
         first_half = ing[0 : len(ing) // 2]
-        second_half = ing[len(ing) // 2 if len(ing) % 2 == 0 else ((len(ing) // 2) + 1) :]
+        second_half = ing[
+            len(ing) // 2 if len(ing) % 2 == 0 else ((len(ing) // 2) + 1) :
+        ]
         if first_half != second_half:
             has_bad_ingredients = False
             break
