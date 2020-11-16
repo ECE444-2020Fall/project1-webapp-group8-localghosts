@@ -4,30 +4,30 @@ from flask import current_app
 
 
 class Recipe(Document):
-    """Python representation of a Recipe document in Elasticsearch
+    """Python representation of a Recipe document in Elasticsearch.
 
-    :param name: A string, the recipe title.
-    :param ingredients: A list of strings, the ingredients of the recipe.
-    :param url: A string, the URL from where the recipe was sourced
-    :param source: A string, the original publisher of the recipe
+    Args:
+        name: A string, the recipe title.
+        ingredients: A list of strings, the ingredients of the recipe.
+        url: A string, the URL from where the recipe was sourced
+        source: A string, the original publisher of the recipe
 
-    :param calories: An int, the calorie count of the recipe. randint(0, 1400)
-    :param carbohydrate: An int, the carb count of the recipe. randint(0, 75)
-    :param fat: An int, the fat count of the recipe. randint(0, 100)
-    :param protein: An int, the protein count of the recipe. randint(0, 50)
+        calories: An int, the calorie count of the recipe. randint(0, 1400)
+        carbohydrate: An int, the carb count of the recipe. randint(0, 75)
+        fat: An int, the fat count of the recipe. randint(0, 100)
+        protein: An int, the protein count of the recipe. randint(0, 50)
 
-    :param image: A optional string, the URL for an image of the recipe
-    :param cookTime: An optional string, the cook time
-    :param recipeYield: An optional string, the recipe yield
-    :param datePublished: An optional string, the original publish date
-    :param prepTime: An optional string, the prep time
-    :param description: An optional string, the recipe pretext/description
-    :param totalTime: An optional string, the total cook/prep time
-    :param creator: An optional string, the original author of the recipe
-    :param recipeCategory: An optional string, the type of recipe
-    :param recipeInstructions: An optional string, the recipe instructions
-
-    :param tags: An optional string array containing any of ["vegetarian", "vegan", "gluten-free"]
+        image: A optional string, the URL for an image of the recipe
+        cookTime: An optional string, the cook time
+        recipeYield: An optional string, the recipe yield
+        datePublished: An optional string, the original publish date
+        prepTime: An optional string, the prep time
+        description: An optional string, the recipe pretext/description
+        totalTime: An optional string, the total cook/prep time
+        creator: An optional string, the original author of the recipe
+        recipeCategory: An optional string, the type of recipe
+        recipeInstructions: An optional string, the recipe instructions
+        tags: An optional string array containing any of ["vegetarian", "vegan", "gluten-free"]
     """
 
     # These fields should be identical to those in recipe-db/loading-scripts/recipe-mapping.json
@@ -66,7 +66,8 @@ class Recipe(Document):
     def get_single_recipe(cls):
         """Return a single Recipe object from Elasticsearch
 
-        :rtype: Recipe
+        Returns:
+            A Recipe object.
         """
         return cls.search().execute()[0]
 
@@ -74,27 +75,34 @@ class Recipe(Document):
     def get_multi_recipe_paged(cls, page=0, per_page=10):
         """Return a list of Recipes, considering pagination
 
-        Usage::
+        Usage:
 
-            >>> # Default options just get you the first 10 recipes
+            >>> # Default options just gets you the first 10 recipes
             >>> recipes_0 = Recipe.get_multi_recipe_paged() #page=0
             >>> # Get next set of results by specifying the page
             >>> recipes_1 = Recipe.get_multi_recipe_paged(page=1)
             >>> # Get more results by changing page size
             >>> recipes_0_4 = Recipe.get_multi_recipe_paged(per_page=50)
 
-        :param page: The page of results to get
-        :param per_page: The size of each page of results to get
-        :rtype: List[Recipe]
+        Args:
+            page: The page of results to get
+            per_page: The size of each page of results to get
+
+        Returns:
+            A list of Recipe objects
         """
         return list(cls.search()[page * per_page : (page + 1) * per_page].execute())
 
     ### TODO: CUSTOM SEARCH METHODS ###
     @classmethod
     def get_recipe_by_id(cls, recipe_id):
-        """Return a single Recipe object from Elasticsearch by it's ID
+        """Return a single Recipe object from Elasticsearch by its ID
 
-        :rtype: Recipe, or None if not found
+        Args:
+            recipe_id: The ID of the recipe to get.
+
+        Returns:
+            The Recipe object corresponding to the given ID, or None if not found
         """
         try:
             return cls.get(recipe_id)
@@ -106,10 +114,13 @@ class Recipe(Document):
         """Return a list of Recipes, considering pagination, whose names
         match the provided query
 
-        :param query: The recipe name to (partly) match
-        :param page: The page of results to get
-        :param per_page: The size of each page of results to get
-        :rtype: List[Recipe]
+        Args:
+            query: The recipe name to (partly) match
+            page: The page of results to get
+            per_page: The size of each page of results to get
+
+        Returns:
+            a list of Recipe objects
         """
         return list(
             cls.search()[page * per_page : (page + 1) * per_page]
