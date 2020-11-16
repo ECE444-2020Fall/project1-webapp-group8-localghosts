@@ -101,27 +101,40 @@ def process_recipe(recipe: dict) -> dict:
     Args:
         recipe: A python dictionary representing the recipe to be processed
     Return:
-        A updated python dictionary for the processed recipe information
+        A updated python dictionary for the processed recipe information, or None if bad data
     """
     # Remove unwanted fields
     for key, value in list(recipe.items()):
         if key not in ES_MAPPING["properties"] or value is None:
             del recipe[key]
 
+    # Split ingredients into an array, but also keep the original blob for string search purposes
+    content_blob = recipe["name"] + recipe["ingredients"]
+    recipe["ingredients"] = recipe["ingredients"].split("\n")
+
+    # Remove poorly parsed recipes (e.g. ingredients like ["1 cup 1 cup"] or ["1","cup","flour"] or [])
+    has_bad_ingredients = True
+    for ing in recipe["ingredients"]:
+        first_half = ing[0 : len(ing) // 2]
+        second_half = ing[
+            len(ing) // 2 if len(ing) % 2 == 0 else ((len(ing) // 2) + 1) :
+        ]
+        if first_half != second_half:
+            has_bad_ingredients = False
+            break
+    if has_bad_ingredients:
+        return None
+
     # Apply tags depending on recipe content
     tags = []
-    body = recipe["name"] + recipe["ingredients"]
-    if not RE_GLUTEN_FREE.search(body):
+    if not RE_GLUTEN_FREE.search(content_blob):
         tags.append("gluten-free")
-    if not RE_VEGETARIAN.search(body):
+    if not RE_VEGETARIAN.search(content_blob):
         tags.append("vegetarian")
-        if not RE_VEGAN.search(body):
+        if not RE_VEGAN.search(content_blob):
             tags.append("vegan")  # treat as subset of vegetarian
     if tags:
         recipe["tags"] = tags
-
-    # Split ingredients into an array
-    recipe["ingredients"] = recipe["ingredients"].split("\n")
 
     # Add nutritional information; random data for now ¯\_(ツ)_/¯
     recipe.update(
@@ -184,10 +197,10 @@ if __name__ == "__main__":
     logging.info("Downloading recipe dump...")
     recipes = download_file(RECIPES_URL)
 
-    logging.info("Processing recipes...")
-    recipes = [process_recipe(r) for r in recipes]
+    logging.info(f"Processing {len(recipes)} recipes...")
+    recipes = list(filter(None, (process_recipe(r) for r in recipes)))
 
-    logging.info("Sending to Elastic...")
+    logging.info(f"Sending {len(recipes)} docs to Elastic...")
     load_elastic(index=ES_INDEX, mapping=ES_MAPPING, docs=recipes)
 
     logging.info("Finished.")
