@@ -4,8 +4,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    """Base config class (for settings common to all configuration types)
-     """
+    """Base config class (for settings common to all configuration types)"""
+
     SECRET_KEY = os.environ.get("SECRET_KEY") or "hard to guess string"
     APPRENTICE_ADMIN = os.environ.get("APPRENTICE_ADMIN")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -13,8 +13,8 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    """Config class for development
-    """
+    """Config class for development"""
+
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "DEV_DATABASE_URL"
@@ -22,15 +22,15 @@ class DevelopmentConfig(Config):
 
 
 class TestingConfig(Config):
-    """Config class for testing
-    """
+    """Config class for testing"""
+
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get("TEST_DATABASE_URL") or "sqlite://"
 
 
 class ProductionConfig(Config):
-    """Config class for production
-    """
+    """Config class for production"""
+
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "DATABASE_URL"
     ) or "sqlite:///" + os.path.join(basedir, "data.sqlite")

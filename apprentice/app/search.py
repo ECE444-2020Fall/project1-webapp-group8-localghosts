@@ -90,7 +90,7 @@ class Recipe(Document):
         Returns:
             A list of Recipe objects
         """
-        return list(cls.search()[page * per_page: (page + 1) * per_page].execute())
+        return list(cls.search()[page * per_page : (page + 1) * per_page].execute())
 
     # TODO: CUSTOM SEARCH METHODS
     @classmethod
@@ -122,7 +122,7 @@ class Recipe(Document):
             a list of Recipe objects
         """
         return list(
-            cls.search()[page * per_page: (page + 1) * per_page]
+            cls.search()[page * per_page : (page + 1) * per_page]
             .query("match", name=query)
             .execute()
         )

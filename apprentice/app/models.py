@@ -19,7 +19,7 @@ def load_user(user_id):
 
 
 class User(UserMixin, db.Model):
-    """ A User of the application.
+    """A User of the application.
 
     Attributes:
         id: the user's unique id
@@ -27,6 +27,7 @@ class User(UserMixin, db.Model):
         username: the user's username (up to 64 characters)
         password_hash: the user's password stored as a hash (using Werkzeug security)
     """
+
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -59,5 +60,5 @@ class User(UserMixin, db.Model):
 
         Args:
             password: the password to compare to the stored hash.
-            """
+        """
         return check_password_hash(self.password_hash, password)

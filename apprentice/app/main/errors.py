@@ -17,7 +17,7 @@ def page_not_found(e):
 def internal_server_error(e):
     """Handler for 500 error.
 
-     Returns:
-         The rendered template for 500.html.
+    Returns:
+        The rendered template for 500.html.
     """
     return render_template("500.html"), 500

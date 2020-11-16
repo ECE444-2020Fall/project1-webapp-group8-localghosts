@@ -1,11 +1,4 @@
-from flask import (
-    abort,
-    redirect,
-    render_template,
-    request,
-    session,
-    url_for,
-)
+from flask import abort, redirect, render_template, request, session, url_for
 from flask_login import login_required
 
 from ..search import Recipe

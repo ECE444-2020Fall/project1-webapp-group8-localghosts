@@ -12,8 +12,8 @@ from ..models import User
 
 
 class LoginForm(FlaskForm):
-    """Form for logging in a user.
-    """
+    """Form for logging in a user."""
+
     email = StringField("Email", validators=[DataRequired(), Length(1, 64), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
     remember_me = BooleanField("Keep me logged in")
@@ -21,8 +21,8 @@ class LoginForm(FlaskForm):
 
 
 class SignupForm(FlaskForm):
-    """Form for creating a new user.
-    """
+    """Form for creating a new user."""
+
     email = StringField("Email", validators=[DataRequired(), Length(1, 64), Email()])
     username = StringField(
         "Username",
