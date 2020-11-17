@@ -1,5 +1,6 @@
 from flask import abort, redirect, render_template, request, session, url_for
 from flask_login import login_required
+from google_images_search import GoogleImagesSearch
 
 from ..search import Recipe
 from . import main
@@ -57,10 +58,23 @@ def recipe(recipe_id):
     Returns:
         The rendered template recipe.html for the requested recipe (by ID).
     """
+
     recipe = Recipe.get_recipe_by_id(recipe_id)
     if not recipe:
         abort(404)
-    return render_template("recipe.html", recipe=recipe)
+
+    google_image_search = GoogleImagesSearch(None, None)
+
+    params = {
+    'q': recipe.name,
+    'num': 1,
+    }
+
+    google_image_search.search(search_params=params)
+
+    image = google_image_search.results()[0].url
+
+    return render_template("recipe.html", recipe=recipe, image_url=image)
 
 
 @main.route("/fridge", methods=["GET", "POST"])

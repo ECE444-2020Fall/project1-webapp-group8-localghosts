@@ -1,3 +1,21 @@
 {% extends "base.html" %}
 
-{% block page_content %} {{ recipe.to_dict() }} {% endblock %}
+{% block page_content %}
+
+<img src= "{{ image_url }}" >
+
+<canvas id="nutrition-info"></canvas>
+
+<canvas id="pieChart"></canvas>
+
+{{ recipe.to_dict() }}
+{% endblock %}
+
+{%  block body %}
+{{ super() }}
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='javascript/chart.js') }}" type="text/javascript"></script>
+
+{% endblock %}
+{% endblock %}

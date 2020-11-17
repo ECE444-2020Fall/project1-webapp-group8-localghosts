@@ -9,6 +9,8 @@ services:
     environment: 
       - "ELASTICSEARCH_URL=http://recipes:9200/"
       - "WAIT_HOSTS=recipes:9200"
+      - "GCS_DEVELOPER_KEY=${GCS_DEVELOPER_KEY}"
+      - "GCS_CX=${GCS_CX}"
   recipes:
     build: ./recipe-db
     image: arefeena/apprentice-recipes:latest
