@@ -49,19 +49,19 @@ img {
 }
 
 p {
-  background: #241910;
-  padding: 7px;
-  border-radius: 8px;
-  margin-left: 5px;
-  font-size: 18px;
-  color: #FEEFDD;
+    background: #241910;
+    padding: 7px;
+    border-radius: 8px;
+    margin-left: 5px;
+    font-size: 18px;
+    color: #FEEFDD;
 }
 
-.ingredients{
+.ingredients {
     height: 550px;
     overflow-y: scroll;
 }
 
-#nutrition-info{
-align: left
+#nutrition-info {
+    align: left
 }
