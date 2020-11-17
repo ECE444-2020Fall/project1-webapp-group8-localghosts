@@ -28,6 +28,7 @@
                 <span class="glyphicon glyphicon-stats"></span>
                 <span class="recipe-info">Yield: {% if recipe.recipeYield %} {{ recipe.recipeYield }} {% else %} N/A {% endif %}</span>
 
+                {% if recipe.tags %}
                 <br><br>
                 {% if 'vegetarian' in recipe.tags %}
                 <span class="glyphicon glyphicon-leaf"></span>
@@ -48,6 +49,8 @@
                 <br>
                 {% else %}
                 {% endif %}
+                {% else %}
+                {% endif %}
             </div>
         </div>
     </div>
@@ -56,25 +59,35 @@
 
 <div class="row">
 
-    <div class="col-md-6">
-        <p>Ingredients</p>
-        <ul>
+    <div class="col-md-4">
+        <span class="glyphicon glyphicon-apple recipe-info"></span>
+        <span class="recipe-info-title">Ingredients</span>
+        <br><br>
+        {% if recipe.ingredients %}
+        <div class="ingredients">
             {% for ingredient in recipe.ingredients %}
-            <li> {{ ingredient }} </li>
+            <p> {{ ingredient }}</p>
             {% endfor %}
-        </ul>
+            {% else %}
+            <p>N/A. See original website for more information.</p>
+            {% endif %}
+        </div>
     </div>
-</div>
 
+    <div class="col-md-4">
+        <span class="glyphicon glyphicon-info-sign recipe-info"></span>
+        <span class="recipe-info-title">Nutritional Information</span>
+        <br><br>
 
-<span class="glyphicon glyphicon-question-sign">
-    Description: {% if recipe.description %} {{ recipe.description }} {% else %} N/A {% endif %}
-</span>
-<div id="nutrition-info"></div>
+        <p>Calories per serving: {{ recipe.calories }} </p>
+        <br><br><br>
+        <p>Macronutrient info:</p>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <div id="nutrition-info"></div>
 
-<script type="text/javascript">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <script type="text/javascript">
     // Load google charts
     google.charts.load('current', {
         'packages': ['corechart']
@@ -82,21 +95,11 @@
     google.charts.setOnLoadCallback(drawChart);
 
     // Get Recipe Macro Information
-    var carb = {
-        {
-            recipe.carbohydrate
-        }
-    };
-    var protein = {
-        {
-            recipe.protein
-        }
-    };
-    var fat = {
-        {
-            recipe.fat
-        }
-    }
+    /* beautify preserve:start */
+    var carb = {{ recipe.carbohydrate }};
+    var protein = {{ recipe.protein }};
+    var fat = {{ recipe.fat }};
+    /* beautify preserve:end */
 
     function drawChart() {
         var data = google.visualization.arrayToDataTable([
@@ -112,16 +115,21 @@
         chart.draw(data, {
             width: 550,
             height: 300,
-            title: 'Macronutrient Information',
             backgroundColor: '#d4af85',
-            colors: ['#3b55b8', '#2b8c64', '#ad5353']
-
+            colors: ['#3b55b8', '#2b8c64', '#ad5353'],
+            pieSliceBorderColor: '#241910',
         });
     }
-</script>
 
+        </script>
 
-{{ recipe.to_dict() }}
+        <a href="{{ recipe.url }}" >
+            <p>For instructions, visit original website</p>
+        </a>
+
+    </div>
+</div>
+
 {% endblock %}
 
 {%  block body %}

@@ -88,7 +88,7 @@ class Recipe(Document):
             per_page: The size of each page of results to get
 
         Returns:
-            A list of Recipe objects
+            A list of Recipe object
         """
         return list(cls.search()[page * per_page : (page + 1) * per_page].execute())
 
@@ -116,10 +116,10 @@ class Recipe(Document):
         Args:
             query: The recipe name to (partly) match
             page: The page of results to get
-            per_page: The size of each page of results to get
+            per_page: The size of each page of results to get.
 
         Returns:
-            a list of Recipe objects
+            a list of Recipe objects.
         """
         return list(
             cls.search()[page * per_page : (page + 1) * per_page]

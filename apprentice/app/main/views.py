@@ -10,7 +10,7 @@ from .forms import AdvancedSearchForm, SearchForm
 
 @main.route("/", methods=["GET", "POST"])
 def index():
-    """View function for the main (index) page
+    """View function for the main (index) page.
 
     Returns:
         On a GET request, returns the rendered template for index.html
@@ -77,14 +77,13 @@ def recipe(recipe_id):
     bad_url = False
 
     try:
-        request = requests.get(image_url)
+        response = requests.head(image_url, allow_redirects=True)
         # If we fail to get the image from the OpenRecipes URL.
-        if request.status_code != 200:
+        if response.status_code != 200:
             bad_url = True
 
     except:
         # If getting the image throws
-
         bad_url = True
 
     # If the OpenRecipes URL is bad, use the first Google image search result
@@ -121,7 +120,7 @@ def fridge():
     Note: This feature is not implemented yet. fridge.html displays a "coming soon" page.
 
     Returns:
-        The rendered template for fridge.html
+        The rendered template for fridge.html.
     """
     return render_template("fridge.html")
 
