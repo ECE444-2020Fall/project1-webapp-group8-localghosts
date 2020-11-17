@@ -8,10 +8,10 @@ from .forms import AdvancedSearchForm, SearchForm
 
 @main.route("/", methods=["GET", "POST"])
 def index():
-    """View function for the main (index) page
+    """View function for the main (index) page.
 
     Returns:
-        On a GET request, returns the rendered template for index.html.
+        On a GET request, returns the rendered template for index.html
         On a POST request (search form submission), redirects to the search page, passing the form data as the query argument.
     """
     form = SearchForm()
@@ -30,7 +30,7 @@ def search():
     """View function for the search page
 
     Returns:
-        The rendered template search.html
+        The rendered template search.html.
 
         On POST request (advanced search form submission), uses the form data for the query.
         On GET request (from index page), uses the GET request argument for the query.
@@ -54,13 +54,23 @@ def search():
 def recipe(recipe_id):
     """View function for recipe display
 
+    Note: Some image URLs given by OpenRecipes are invalid. The image shown on the page is as follows:
+    1. If the OpenRecipes image URL is valid, it is used.
+    2. If the OpenRecipes URL is not valid, a Google Search is carried out with the recipe name, and the first image result is used.
+    3. The Google API has a quota of 100 queries per day. If this limit is reached, a default image is used (from the static folder)
+
     Returns:
         The rendered template recipe.html for the requested recipe (by ID).
     """
+
+    # Get recipe
     recipe = Recipe.get_recipe_by_id(recipe_id)
     if not recipe:
         abort(404)
-    return render_template("recipe.html", recipe=recipe)
+
+    return render_template(
+        "recipe.html", recipe=recipe, image_url=recipe.get_image_url(use_google=True)
+    )
 
 
 @main.route("/fridge", methods=["GET", "POST"])
@@ -71,7 +81,7 @@ def fridge():
     Note: This feature is not implemented yet. fridge.html displays a "coming soon" page.
 
     Returns:
-        The rendered template for fridge.html
+        The rendered template for fridge.html.
     """
     return render_template("fridge.html")
 

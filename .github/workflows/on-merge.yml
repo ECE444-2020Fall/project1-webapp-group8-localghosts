@@ -82,10 +82,14 @@ jobs:
 
       - name: Build and deploy
         uses: appleboy/ssh-action@master
+        env:
+          GCS_DEVELOPER_KEY: ${{ secrets.GCS_DEVELOPER_KEY }}
+          GCS_CX: ${{ secrets.GCS_CX }}
         with:
           host: ${{ secrets.PROD_SSH_HOST }}
           username: ${{ secrets.PROD_SSH_USERNAME }}
           key: ${{ secrets.PROD_SSH_KEY }}
+          envs: GCS_DEVELOPER_KEY,GCS_CX
           script: |
             # Start a swarm if we're not already in one
             if [ "$(docker info --format '{{.Swarm.LocalNodeState}}')" == "inactive" ]; then
@@ -93,6 +97,8 @@ jobs:
             fi
 
             # Spin up the services
+            export GCS_DEVELOPER_KEY
+            export GCS_CX
             docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml localghosts
 
             # Clean up old stuff
