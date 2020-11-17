@@ -100,7 +100,7 @@ class Recipe(Document):
             except Exception:
                 # e.g. API quota limit reached
                 pass
-        
+
         # Else return our default image
         return url_for("static", filename="images/default_recipe_image.jpg")
 
