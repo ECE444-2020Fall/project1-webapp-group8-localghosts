@@ -1,5 +1,7 @@
+import requests
 from elasticsearch_dsl import Document, Keyword, Short, Text
 from flask import current_app, url_for
+from google_images_search import GoogleImagesSearch
 
 
 class Recipe(Document):
@@ -58,6 +60,49 @@ class Recipe(Document):
     def _get_using(cls, using=None):
         """Override base method for specifying our current Elasticsearch connection"""
         return current_app.elasticsearch
+
+    def get_image_url(self, use_google=False):
+        """Return a URL for an image of this recipe.
+        It will try to return the OpenRecipes scraped image if it exists,
+        else it will do a Google image search, else it will return a default
+        placeholder image.
+
+        Args:
+            use_google: If true, will make an API call to Google images for missing
+                images, else it will skip this step (for API quota purposes).
+
+        Returns:
+            A string URL which can be GET requested to obtain an image
+        """
+        # First try the OpenRecipes image
+        try:
+            response = requests.head(self.image, allow_redirects=True)
+
+            if response.status_code == 200:
+                return self.image
+        except Exception:
+            # e.g. timeout
+            pass
+
+        # Then try the first Google Image search result
+        if use_google:
+            try:
+                google_image_search = GoogleImagesSearch(None, None)
+
+                google_image_search.search(
+                    search_params={
+                        "q": self.name,
+                        "num": 1,
+                    }
+                )
+
+                return google_image_search.results()[0].url
+            except Exception:
+                # e.g. API quota limit reached
+                pass
+        
+        # Else return our default image
+        return url_for("static", filename="images/default_recipe_image.jpg")
 
     # THESE ARE SAMPLE METHODS FOR YOU TO GET DATA FROM
 
