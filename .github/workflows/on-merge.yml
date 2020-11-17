@@ -97,6 +97,8 @@ jobs:
             fi
 
             # Spin up the services
+            export GCS_DEVELOPER_KEY
+            export GCS_CX
             docker stack deploy -c docker-compose.yml -c docker-compose.prod.yml localghosts
 
             # Clean up old stuff
