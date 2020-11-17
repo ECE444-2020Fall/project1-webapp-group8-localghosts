@@ -15,7 +15,6 @@
 //}
 //});
 
-//pie
 var ctxP = document.getElementById("pieChart").getContext('2d');
 var myPieChart = new Chart(ctxP, {
 type: 'pie',
@@ -30,4 +29,32 @@ hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
 options: {
 responsive: true
 }
+});
+
+$(document).ready(function(){
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+
+var data = google.visualization.arrayToDataTable([
+['Macro', 'Grams'],
+['Carbohydrates', 11],
+['Playing', 2],
+['Watch TV', 2],
+['Tution', 2],
+['Sleep', 7]
+]);
+
+var options = {
+title: 'My Day Schedule'
+};
+
+var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+chart.draw(data, options);
+}
+
+
 });

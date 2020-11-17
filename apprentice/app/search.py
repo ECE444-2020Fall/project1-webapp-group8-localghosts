@@ -1,5 +1,5 @@
 from elasticsearch_dsl import Document, Keyword, Short, Text
-from flask import current_app
+from flask import current_app, url_for
 
 
 class Recipe(Document):
@@ -126,3 +126,4 @@ class Recipe(Document):
             .query("match", name=query)
             .execute()
         )
+

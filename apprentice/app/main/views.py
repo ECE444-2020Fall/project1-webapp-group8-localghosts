@@ -1,5 +1,6 @@
 from flask import abort, redirect, render_template, request, session, url_for
 from flask_login import login_required
+import requests
 from google_images_search import GoogleImagesSearch
 
 from ..search import Recipe
@@ -12,7 +13,7 @@ def index():
     """View function for the main (index) page
 
     Returns:
-        On a GET request, returns the rendered template for index.html.
+        On a GET request, returns the rendered template for index.html
         On a POST request (search form submission), redirects to the search page, passing the form data as the query argument.
     """
     form = SearchForm()
@@ -31,7 +32,7 @@ def search():
     """View function for the search page
 
     Returns:
-        The rendered template search.html
+        The rendered template search.html.
 
         On POST request (advanced search form submission), uses the form data for the query.
         On GET request (from index page), uses the GET request argument for the query.
@@ -55,27 +56,62 @@ def search():
 def recipe(recipe_id):
     """View function for recipe display
 
+    Note: Some image URLs given by OpenRecipes are invalid. The image shown on the page is as follows:
+    1. If the OpenRecipes image URL is valid, it is used.
+    2. If the OpenRecipes URL is not valid, a Google Search is carried out with the recipe name, and the first image result is used.
+    3. The Google API has a quota of 100 queries per day. If this limit is reached, a default image is used (from the static folder)
+
     Returns:
         The rendered template recipe.html for the requested recipe (by ID).
     """
 
+    # Get recipe
     recipe = Recipe.get_recipe_by_id(recipe_id)
     if not recipe:
         abort(404)
 
-    google_image_search = GoogleImagesSearch(None, None)
+    # Get image URL.
 
-    params = {
-    'q': recipe.name,
-    'num': 1,
-    }
+    # URL from openRecipes JSON
+    image_url = recipe.image
+    bad_url = False
 
-    google_image_search.search(search_params=params)
+    try:
+        request = requests.get(image_url)
+        # If we fail to get the image from the OpenRecipes URL.
+        if request.status_code != 200:
+            bad_url = True
 
-    image = google_image_search.results()[0].url
+    except:
+        # If getting the image throws
 
-    return render_template("recipe.html", recipe=recipe, image_url=image)
+        bad_url = True
 
+
+    # If the OpenRecipes URL is bad, use the first Google image search result
+    if bad_url:
+
+        try:
+
+            raise Exception("blah") # Simulate limit reached (for testing)
+
+            google_image_search = GoogleImagesSearch(None, None)
+
+            params = {
+                'q': recipe.name,
+                'num': 1,
+            }
+
+            google_image_search.search(search_params=params)
+
+            image_url = google_image_search.results()[0].url
+
+        # If the Google API Quota limit was reached, the search will throw.
+        except:
+            # Use default recipe image.
+            image_url = url_for('static', filename='images/default_recipe_image.jpg')
+
+    return render_template("recipe.html", recipe=recipe, image_url=image_url)
 
 @main.route("/fridge", methods=["GET", "POST"])
 @login_required
