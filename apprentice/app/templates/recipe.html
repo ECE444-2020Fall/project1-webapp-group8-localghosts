@@ -75,41 +75,49 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
-
-// Load google charts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-
-// Get Recipe Macro Information
-var carb = {{ recipe.carbohydrate }};
-var protein = {{ recipe.protein }};
-var fat = {{ recipe.fat }}
-
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-  ['Macronutient', 'Grams'],
-  ['Carbohydrate(g)', carb ],
-  ['Protein(g)', protein],
-  ['Fat(g)', fat]
-]);
-
-  var chart = new google.visualization.PieChart(document.getElementById('nutrition-info'));
-
-   // Draw chart
-   chart.draw(data, {
-   width: 550,
-   height: 300,
-   title: 'Macronutrient Information',
-   backgroundColor: '#d4af85',
-   colors: ['#3b55b8', '#2b8c64', '#ad5353']
-
+    // Load google charts
+    google.charts.load('current', {
+        'packages': ['corechart']
     });
-}
+    google.charts.setOnLoadCallback(drawChart);
 
+    // Get Recipe Macro Information
+    var carb = {
+        {
+            recipe.carbohydrate
+        }
+    };
+    var protein = {
+        {
+            recipe.protein
+        }
+    };
+    var fat = {
+        {
+            recipe.fat
+        }
+    }
 
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Macronutient', 'Grams'],
+            ['Carbohydrate(g)', carb],
+            ['Protein(g)', protein],
+            ['Fat(g)', fat]
+        ]);
 
+        var chart = new google.visualization.PieChart(document.getElementById('nutrition-info'));
 
+        // Draw chart
+        chart.draw(data, {
+            width: 550,
+            height: 300,
+            title: 'Macronutrient Information',
+            backgroundColor: '#d4af85',
+            colors: ['#3b55b8', '#2b8c64', '#ad5353']
 
+        });
+    }
 </script>
 
 

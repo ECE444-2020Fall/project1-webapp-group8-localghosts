@@ -126,4 +126,3 @@ class Recipe(Document):
             .query("match", name=query)
             .execute()
         )
-

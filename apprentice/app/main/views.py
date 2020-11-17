@@ -1,6 +1,6 @@
+import requests
 from flask import abort, redirect, render_template, request, session, url_for
 from flask_login import login_required
-import requests
 from google_images_search import GoogleImagesSearch
 
 from ..search import Recipe
@@ -87,19 +87,18 @@ def recipe(recipe_id):
 
         bad_url = True
 
-
     # If the OpenRecipes URL is bad, use the first Google image search result
     if bad_url:
 
         try:
 
-            raise Exception("blah") # Simulate limit reached (for testing)
+            raise Exception("blah")  # Simulate limit reached (for testing)
 
             google_image_search = GoogleImagesSearch(None, None)
 
             params = {
-                'q': recipe.name,
-                'num': 1,
+                "q": recipe.name,
+                "num": 1,
             }
 
             google_image_search.search(search_params=params)
@@ -109,9 +108,10 @@ def recipe(recipe_id):
         # If the Google API Quota limit was reached, the search will throw.
         except:
             # Use default recipe image.
-            image_url = url_for('static', filename='images/default_recipe_image.jpg')
+            image_url = url_for("static", filename="images/default_recipe_image.jpg")
 
     return render_template("recipe.html", recipe=recipe, image_url=image_url)
+
 
 @main.route("/fridge", methods=["GET", "POST"])
 @login_required
