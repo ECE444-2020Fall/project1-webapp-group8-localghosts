@@ -4,16 +4,15 @@
         Links should be done with anchor/href for accessibility reasons
         @whoever optimizes the UI later see https://stackoverflow.com/q/796087 for alternatives-->
 
-    <div class=column1>
-        <div class=recipe-name>
-            <a href={{recipe.url}}>
-                <h5><b>{{recipe.name}}</b></h5>
-            </a>
-        </div>
-
-        <div class=recipe-pic>
-            <img src="{{recipe.get_image_url()}}" />
-        </div>
+    <div class=recipe-name>
+        <a href={{recipe.url}}>
+            <h5><b>{{recipe.name}}</b></h5>
+        </a>
     </div>
-    <div class=recipe-desc> <b>Description:</b> {{recipe.description}} </div>
+
+    <div class=recipe-pic>
+        <img src="{{recipe.get_image_url()}}" />
+    </div>
+
+    <!-- <div class=recipe-desc> <b>Description:</b> {{recipe.description}} </div> -->
 </div>
