@@ -203,7 +203,7 @@ class Recipe(Document):
         search = cls.search()[page * per_page : (page + 1) * per_page]
 
         if criteria.get("query"):
-            search = search.query("fuzzy", name=criteria.get("query"))
+            search = search.query(Q("fuzzy", name=criteria.get("query")) | Q("match", name=criteria.get("query")))
 
         if criteria.get("ingredients"):
             ingredients = criteria.get("ingredients")
