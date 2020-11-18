@@ -1,5 +1,5 @@
 import requests
-from elasticsearch_dsl import Document, Keyword, Short, Text
+from elasticsearch_dsl import Document, Keyword, Short, Text, Q
 from flask import current_app, url_for
 from google_images_search import GoogleImagesSearch
 
@@ -238,4 +238,12 @@ class Recipe(Document):
             min_val, max_val = range_parse(criteria.get("protein"))
             search = search.filter("range", protein={"gte": min_val, "lte": max_val})
 
+        return search
+
+    @classmethod
+    def get_recipe_suggestions(cls, prefix):
+        search = cls.search()
+        search = search.query(
+            Q("match_phrase_prefix", name=prefix) | Q("prefix", name=prefix)
+        )
         return search

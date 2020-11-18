@@ -1,4 +1,4 @@
-from flask import abort, redirect, render_template, request, session, url_for
+from flask import abort, redirect, render_template, request, session, url_for, jsonify
 from flask_login import login_required
 
 from ..search import Recipe
@@ -23,6 +23,12 @@ def index():
         name=session.get("name"),
         known=session.get("known", False),
     )
+
+
+@main.route("/search/autocomplete", methods=["GET", "POST"])
+def search_autocomplete():
+    results = Recipe.get_recipe_suggestions(request.args.get("query")).execute()
+    return jsonify([r.name for r in results])
 
 
 @main.route("/search", methods=["GET", "POST"])
