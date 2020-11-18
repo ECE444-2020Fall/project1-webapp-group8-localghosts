@@ -75,7 +75,8 @@ jobs:
           pip install wheel
           pip install setuptools-scm
           pip install pdoc3
-          pdoc --html .
+          pip install -r apprentice/requirements.txt
+          pdoc --html apprentice.app
 
       - name: Check for modified files
         id: git-check
