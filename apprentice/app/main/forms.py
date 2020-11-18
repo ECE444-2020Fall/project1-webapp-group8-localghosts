@@ -4,6 +4,13 @@ from wtforms.fields.html5 import IntegerField, SearchField
 from wtforms.validators import DataRequired
 
 
+class Struct:
+    """Utility class to help populate forms. See https://stackoverflow.com/q/35749962"""
+
+    def __init__(self, **entries):
+        self.__dict__.update(entries)
+
+
 class SearchForm(FlaskForm):
     """Form for searching for a recipe."""
 

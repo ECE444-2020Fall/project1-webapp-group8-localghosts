@@ -3,7 +3,7 @@ from flask_login import login_required
 
 from ..search import Recipe
 from . import main
-from .forms import AdvancedSearchForm, SearchForm
+from .forms import AdvancedSearchForm, SearchForm, Struct
 
 
 @main.route("/", methods=["GET", "POST"])
@@ -32,24 +32,60 @@ def search():
     Returns:
         The rendered template search.html.
 
-        On POST request (advanced search form submission), uses the form data for the query.
+        On POST request (advanced search form submission), redirects back to a GET request.
         On GET request (from index page), uses the GET request argument for the query.
     """
     form = AdvancedSearchForm()
-    recipes = []
-
-    if request.method == "GET" and "query" in request.args:
-        # i.e. if coming from the index page
-        recipes = Recipe.get_recipes_by_name(request.args["query"], page=0, per_page=6)
-    elif request.method == "POST" or form.validate_on_submit():
-        # i.e. if coming from an advanced search
-        recipes = Recipe.get_recipes_by_advanced(
-            page=0,
-            per_page=6,
-            query=form.recipe.query.data,
+    if request.method == "POST" or form.validate_on_submit():
+        return redirect(
+            url_for(
+                ".search",
+                _method="GET",
+                query=form.recipe.query.data,
+                ingredients=form.recipe.ingredients.data,
+                calories=form.nutrients.calories.data,
+                carbohydrate=form.nutrients.carbs.data,
+                fat=form.nutrients.fats.data,
+                protein=form.nutrients.protein.data,
+            )
         )
 
-    return render_template("search.html", recipes=recipes, form=form)
+    # Populate form data from before if available
+    form.recipe.form.populate_obj(
+        Struct(
+            query=request.args.get("query"),
+            ingredients=request.args.get("ingredients"),
+        )
+    )
+    form.nutrients.form.populate_obj(
+        Struct(
+            calories=request.args.get("calories"),
+            carbs=request.args.get("carbohydrate"),
+            fats=request.args.get("fat"),
+            protein=request.args.get("protein"),
+        )
+    )
+
+    # Populate recipes
+    recipe_search = Recipe.get_recipes_by_criteria(
+        page=0,
+        per_page=6,
+        query=request.args.get("query"),
+        ingredients=request.args.get("ingredients"),
+        calories=request.args.get("calories"),
+        carbohydrate=request.args.get("carbohydrate"),
+        fat=request.args.get("fat"),
+        protein=request.args.get("protein"),
+    ).execute()
+
+    recipes = list(recipe_search)
+
+    return render_template(
+        "search.html",
+        recipes=recipes,
+        total_results=recipe_search.hits.total.value,
+        form=form,
+    )
 
 
 @main.route("/recipe/<recipe_id>", methods=["GET", "POST"])
@@ -88,7 +124,6 @@ def fridge():
     return render_template("fridge.html")
 
 
-
 @main.route("/grocerylist", methods=["GET", "POST"])
 @login_required
 def grocerylist():
@@ -100,4 +135,3 @@ def grocerylist():
         The rendered template for grocerylist.html
     """
     return render_template("grocerylist.html")
-

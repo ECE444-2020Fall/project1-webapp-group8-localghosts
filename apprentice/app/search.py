@@ -154,26 +154,7 @@ class Recipe(Document):
             return None
 
     @classmethod
-    def get_recipes_by_name(cls, query, page=0, per_page=10):
-        """Return a list of Recipes, considering pagination, whose names
-        match the provided query
-
-        Args:
-            query: The recipe name to (partly) match
-            page: The page of results to get
-            per_page: The size of each page of results to get.
-
-        Returns:
-            a list of Recipe objects.
-        """
-        return list(
-            cls.search()[page * per_page : (page + 1) * per_page]
-            .query("match", name=query)
-            .execute()
-        )
-
-    @classmethod
-    def get_recipes_by_advanced(cls, page=0, per_page=10, **criteria):
+    def get_recipes_by_criteria(cls, page=0, per_page=10, **criteria):
         """Advanced search wrapper for Recipes.
 
         An example set of criteria is as follows:
@@ -191,21 +172,31 @@ class Recipe(Document):
 
         Usage::
             >>> # e.g. direct kwargs
-            >>> Recipe.get_recipes_by_advanced(query="dip", "tags"=["vegetarian"])
+            >>> Recipe.get_recipes_by_criteria(query="dip", tags=["vegetarian"]).execute()
             >>> # e.g. splat kwargs
             >>> criteria = {"query":"dip, "tags":["vegetarian"]}
-            >>> Recipe.get_recipes_by_advanced(**criteria)
+            >>> Recipe.get_recipes_by_criteria(**criteria).execute()
 
-        :param query: The recipe name to (partly) match
-        :param page: The page of results to get
-        :param per_page: The size of each page of results to get
-        :param critiera: kwargs as described above
-        :rtype: List[Recipe]
+        Args:
+            page: The page of results to get
+            per_page: The size of each page of results to get
+            critiera: kwargs of the below
+                query: The recipe name to (partly) match
+                ingredients: List of ingredients the recipe should contain (any)
+                tags: List of tags the recipe should match
+                calories: Integer tuple range
+                carbohydrate: Integer tuple range
+                fat: Integer tuple range
+                protein: Integer tuple range
+
+        Returns:
+            An elasticsearch_dsl.Search object, which you can get a list
+            of recipes out of by doing list(search_object.execute())
         """
         search = cls.search()[page * per_page : (page + 1) * per_page]
 
         if criteria.get("query"):
-            search = search.query("match", name=criteria.get("query"))
+            search = search.query("fuzzy", name=criteria.get("query"))
 
         if criteria.get("ingredients"):
             search = search.query("terms", ingredients=criteria.get("ingredients"))
@@ -237,4 +228,4 @@ class Recipe(Document):
             min_val, max_val = criteria.get("protein")
             search = search.filter("range", protein={"gte": min_val, "lte": max_val})
 
-        return list(search.execute())
+        return search
