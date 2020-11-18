@@ -53,3 +53,11 @@ Finally, run your application. You can view the page at [localhost:5000](http://
 # after setting FLASK_APP
 flask run
 ```
+
+Note for developers: 
+
+To be able to carry out the Google Image Searches (for invalid OpenRecipes Image URLs), a ".env" file with the following content needs to be added to the root directory of the project.
+
+GCS_DEVELOPER_KEY=`<GCS api key>`
+
+GCS_CX=`<GCS Search engine ID>`

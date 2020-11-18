@@ -1,3 +1,136 @@
 {% extends "base.html" %}
 
-{% block page_content %} {{ recipe.to_dict() }} {% endblock %}
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/recipe.css') }}">
+{% endblock %}
+
+{% block page_content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <img src="{{ image_url }}">
+            </div>
+
+            <div class="col-md-6">
+                <h1 class="jumbotron-text">{{ recipe.name }}</h1>
+
+                <span class="glyphicon glyphicon-time"></span>
+                <span class="recipe-info">Prep time: {% if recipe.prepTime %} {{ recipe.prepTime }} {% else %} N/A {% endif %}</span>
+                <br>
+                <span class="glyphicon glyphicon-time"></span>
+                <span class="recipe-info">Cook time: {% if recipe.cookTime %} {{ recipe.cookTime }} {% else %} N/A {% endif %}</span>
+
+                <br><br>
+                <span class="glyphicon glyphicon-stats"></span>
+                <span class="recipe-info">Yield: {% if recipe.recipeYield %} {{ recipe.recipeYield }} {% else %} N/A {% endif %}</span>
+
+                {% if recipe.tags %}
+                <br><br>
+                {% if 'vegetarian' in recipe.tags %}
+                <span class="glyphicon glyphicon-leaf"></span>
+                <span class="recipe-info">Vegetarian</span>
+                <br>
+                {% else %}
+                {% endif %}
+                {% if 'vegan' in recipe.tags %}
+                <span class="glyphicon glyphicon-leaf"></span>
+                <span class="recipe-info">Vegan</span>
+
+                <br>
+                {% else %}
+                {% endif %}
+                {% if 'gluten-free' in recipe.tags %}
+                <span class="glyphicon glyphicon-grain"></span>
+                <span class="recipe-info">Gluten Free</span>
+                <br>
+                {% else %}
+                {% endif %}
+                {% else %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+
+    <div class="col-md-4">
+        <span class="glyphicon glyphicon-apple recipe-info"></span>
+        <span class="recipe-info-title">Ingredients</span>
+        <br><br>
+        {% if recipe.ingredients %}
+        <div class="ingredients">
+            {% for ingredient in recipe.ingredients %}
+            <p> {{ ingredient }}</p>
+            {% endfor %}
+            {% else %}
+            <p>N/A. See original website for more information.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <span class="glyphicon glyphicon-info-sign recipe-info"></span>
+        <span class="recipe-info-title">Nutritional Information</span>
+        <br><br>
+
+        <p>Calories per serving: {{ recipe.calories }} </p>
+        <br><br><br>
+        <p>Macronutrient info:</p>
+
+        <div id="nutrition-info"></div>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <script type="text/javascript">
+            // Load google charts
+            google.charts.load('current', {
+                'packages': ['corechart']
+            });
+            google.charts.setOnLoadCallback(drawChart);
+
+            // Get Recipe Macro Information
+            /* beautify preserve:start */
+            var carb = {{ recipe.carbohydrate }};
+            var protein = {{ recipe.protein }};
+            var fat = {{ recipe.fat }};
+            /* beautify preserve:end */
+
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable([
+                    ['Macronutient', 'Grams'],
+                    ['Carbohydrate(g)', carb],
+                    ['Protein(g)', protein],
+                    ['Fat(g)', fat]
+                ]);
+
+                var chart = new google.visualization.PieChart(document.getElementById('nutrition-info'));
+
+                // Draw chart
+                chart.draw(data, {
+                    width: 550,
+                    height: 300,
+                    backgroundColor: '#d4af85',
+                    colors: ['#3b55b8', '#2b8c64', '#ad5353'],
+                    pieSliceBorderColor: '#241910',
+                });
+            }
+        </script>
+
+        <a href="{{ recipe.url }}">
+            <p>Click here for instructions (links to the {{recipe.source}} website)</p>
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{%  block body %}
+{{ super() }}
+{% endblock %}
