@@ -64,8 +64,14 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
       - name: Generate Documentation
         run: |
+          python -m pip install --upgrade pip
           pip install wheel
           pip install setuptools-scm
           pip install pdoc3
