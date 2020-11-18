@@ -31,7 +31,7 @@ class AdvancedSearchForm(FlaskForm):
             render_kw={"placeholder": "Search by recipe name"},
         )
         ingredients = FieldList(
-            StringField("", render_kw={"placeholder": "Search by ingredient(s)"}),
+            StringField("", render_kw={"placeholder": "Search by comma-seperated ingredient(s)"}),
             min_entries=1,
         )
         # https://wtforms.readthedocs.io/en/2.3.x/fields/ to make ^ look better

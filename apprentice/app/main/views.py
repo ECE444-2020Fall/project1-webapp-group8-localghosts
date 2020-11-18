@@ -69,7 +69,7 @@ def search():
     # Populate recipes
     recipe_search = Recipe.get_recipes_by_criteria(
         page=0,
-        per_page=6,
+        per_page=8,
         query=request.args.get("query"),
         ingredients=request.args.get("ingredients"),
         calories=request.args.get("calories"),
