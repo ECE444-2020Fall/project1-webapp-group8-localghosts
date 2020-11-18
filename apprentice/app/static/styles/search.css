@@ -15,7 +15,7 @@
     border: none;
     border-radius: 5px;
     margin: 10px;
-    
+
 }
 
 .num-res {
@@ -76,11 +76,12 @@
     border-radius: 10px;
     color: #241910;
     margin-top: 5px;
-    
+
 }
 
 #submit:hover {
-    background-color: #241910; /* Brown Creme */
+    background-color: #241910;
+    /* Brown Creme */
     color: white;
 }
 
@@ -94,7 +95,7 @@
     flex-flow: column wrap;
     justify-content: space-between;
     width: 30%;
-    
+
 }
 
 .submit-container {
@@ -126,15 +127,16 @@
 }
 
 #advanced-btn:hover {
-    background-color: #241910 !important; /* Brown Creme */
-    color:#FEEFDD !important;
-    border-color: #241910 ;
+    background-color: #241910 !important;
+    /* Brown Creme */
+    color: #FEEFDD !important;
+    border-color: #241910;
 }
 
 h4 {
     font-size: 20px;
     color: #241910;
-}   
+}
 
 input {
     border-radius: 5px;
@@ -143,4 +145,3 @@ input {
     height: 30px;
     border-color: #FEEFDD;
 }
-

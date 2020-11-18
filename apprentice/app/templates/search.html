@@ -17,22 +17,22 @@
         <div class="recipe-container">
             <div class="quick-search">
                 <h4>Quick Search</h4>
-                <div class="ele-search" >{{ form.recipe.query }}</div>
-                <div class="ele-search"> 
+                <div class="ele-search">{{ form.recipe.query }}</div>
+                <div class="ele-search">
                     {% for ingredient in form.recipe.ingredients %}
-                        {{ ingredient }}
+                    {{ ingredient }}
                     {% endfor %}
                 </div>
             </div>
             <button id="advanced-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Advanced Search
             </button>
-            <div class="collapse" id="collapseExample" >
+            <div class="collapse" id="collapseExample">
                 <div class="advanced-search">
                     {% for nutrient in form.nutrients %}
-                        {% if nutrient.label.text != 'CSRF Token' %}
-                            {{ nutrient.label }} {{ nutrient }}
-                        {% endif %}
+                    {% if nutrient.label.text != 'CSRF Token' %}
+                    {{ nutrient.label }} {{ nutrient }}
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
@@ -42,7 +42,7 @@
             {{ form.submit }}
         </div>
     </form>
-    
+
 </div>
 
 {% if recipes is defined and recipes|length > 0 %}

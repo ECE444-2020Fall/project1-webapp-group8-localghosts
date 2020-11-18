@@ -186,7 +186,7 @@ class Recipe(Document):
             "protein": [0, 100],
             "tags": ["gluten-free", "vegetarian"],
         }
-        Note that all of the items are optional and will be ignored if omitted or 
+        Note that all of the items are optional and will be ignored if omitted or
         if falsy values are provided (e.g. False, None, [], {}, "")
 
         Usage::
