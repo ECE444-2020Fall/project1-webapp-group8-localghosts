@@ -66,6 +66,7 @@ jobs:
 
       - name: Generate Documentation
         run: |
+          pip install wheel
           pip install setuptools-scm
           pip install pdoc3
           pdoc --html .
