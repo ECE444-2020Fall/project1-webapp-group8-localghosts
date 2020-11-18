@@ -81,17 +81,17 @@ def search(page=0):
         "fat": request.args.get("fat"),
         "protein": request.args.get("protein"),
     }
-    recipe_search = Recipe.get_recipes_by_criteria(
-        page=page,
-        per_page=per_page,
-        **criteria,
-    )
 
     try:
-        recipe_search_results = recipe_search.execute()
+        recipe_search_results = Recipe.get_recipes_by_criteria(
+            page=page,
+            per_page=per_page,
+            **criteria,
+        ).execute()
+
         recipes = list(recipe_search_results)
         total_results = recipe_search_results.hits.total.value
-    except:
+    except Exception:
         recipes = []
         total_results = 0
 

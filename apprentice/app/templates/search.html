@@ -45,13 +45,11 @@
 
 </div>
 
-{% if recipes is defined and recipes|length > 0 %}
 <div class=num-res>Search results: {{total_results}}</div>
 <div class="result-view">
     {% for recipe in recipes %}
     {% include '_search.html' %}
     {% endfor %}
-    {% endif %}
 </div>
 
 <nav aria-label="...">
