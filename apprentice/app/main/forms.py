@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import FieldList, FormField, StringField, SubmitField
 from wtforms.fields.html5 import IntegerField, SearchField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Regexp
 
 
 class Struct:
@@ -39,10 +39,26 @@ class AdvancedSearchForm(FlaskForm):
     class NutrientsForm(FlaskForm):
         """Form for searching by nutritional information"""
 
-        calories = IntegerField("Calories")
-        carbs = IntegerField("Carbs")
-        fats = IntegerField("Fats")
-        protein = IntegerField("Protein")
+        calories = StringField(
+            "Calories",
+            validators=[Regexp(r"\d+-\d+")],
+            render_kw={"placeholder": "e.g. 0-500"},
+        )
+        carbs = StringField(
+            "Carbs",
+            validators=[Regexp(r"\d+-\d+")],
+            render_kw={"placeholder": "e.g. 0-500"},
+        )
+        fats = StringField(
+            "Fats",
+            validators=[Regexp(r"\d+-\d+")],
+            render_kw={"placeholder": "e.g. 0-500"},
+        )
+        protein = StringField(
+            "Protein",
+            validators=[Regexp(r"\d+-\d+")],
+            render_kw={"placeholder": "e.g. 0-500"},
+        )
 
     recipe = FormField(RecipeForm)
     nutrients = FormField(NutrientsForm)

@@ -4,6 +4,13 @@ from flask import current_app, url_for
 from google_images_search import GoogleImagesSearch
 
 
+def range_parse(item):
+    if item and isinstance(item, str):
+        return item.split("-")
+    else:
+        return item
+
+
 class Recipe(Document):
     """Python representation of a Recipe document in Elasticsearch.
 
@@ -199,7 +206,10 @@ class Recipe(Document):
             search = search.query("fuzzy", name=criteria.get("query"))
 
         if criteria.get("ingredients"):
-            search = search.query("terms", ingredients=criteria.get("ingredients"))
+            ingredients = criteria.get("ingredients")
+            if isinstance(ingredients, str):
+                ingredients = [i.strip() for i in ingredients.split(",")]
+            search = search.query("terms", ingredients=ingredients)
 
         if criteria.get("tags"):
             search = search.filter(
@@ -211,21 +221,21 @@ class Recipe(Document):
             )
 
         if criteria.get("calories"):
-            min_val, max_val = criteria.get("calories")
+            min_val, max_val = range_parse(criteria.get("calories"))
             search = search.filter("range", calories={"gte": min_val, "lte": max_val})
 
         if criteria.get("carbohydrate"):
-            min_val, max_val = criteria.get("carbohydrate")
+            min_val, max_val = range_parse(criteria.get("carbohydrate"))
             search = search.filter(
                 "range", carbohydrate={"gte": min_val, "lte": max_val}
             )
 
         if criteria.get("fat"):
-            min_val, max_val = criteria.get("fat")
+            min_val, max_val = range_parse(criteria.get("fat"))
             search = search.filter("range", fat={"gte": min_val, "lte": max_val})
 
         if criteria.get("protein"):
-            min_val, max_val = criteria.get("protein")
+            min_val, max_val = range_parse(criteria.get("protein"))
             search = search.filter("range", protein={"gte": min_val, "lte": max_val})
 
         return search
