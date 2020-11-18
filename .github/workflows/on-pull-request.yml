@@ -49,6 +49,40 @@ jobs:
           git commit -am "Automated code formatting"
           git push
 
+  documentation:
+
+    needs: format
+
+    # Check if the PR is not from a fork (required because of read/write permission limitations on default token)
+    # https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#permissions-for-the-github_token
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Generate Documentation
+        run: |
+          pip install pdoc3
+          pdoc --html .
+
+      - name: Check for modified files
+        id: git-check
+        run: |
+          git update-index -q --refresh
+          echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+
+      - name: Commit and push back changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'LocalGhosts Bot'
+          git config --global user.email 'project1-webapp-group8-localghosts@noreply.github.com'
+          git commit -am "Automated code formatting"
+          git push
+
   # Check out the code and run our tests
   test:
     # We'll run this job only if the other one successfully completes
