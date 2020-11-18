@@ -44,11 +44,17 @@ class RecipeSearchTestCase(unittest.TestCase):
         """Asserts the functionality of getting a recipe by name."""
         # Check that it finds stuff that exists
         for query in ["chicken", "salad"]:
-            results = list(Recipe.get_recipes_by_criteria(query=query, per_page=5).execute())
+            results = list(
+                Recipe.get_recipes_by_criteria(query=query, per_page=5).execute()
+            )
             for result in results:
                 self.assertIn(query, result.name.lower())
 
         # Check that it doesn't find stuff that doesn't exist
         self.assertFalse(
-            list(Recipe.get_recipes_by_criteria(query="somethingthatdefinitelydoesnotexist").execute())
+            list(
+                Recipe.get_recipes_by_criteria(
+                    query="somethingthatdefinitelydoesnotexist"
+                ).execute()
+            )
         )

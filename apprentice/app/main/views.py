@@ -26,9 +26,13 @@ def index():
 
 
 @main.route("/search", methods=["GET", "POST"])
-def search():
+@main.route("/search/<int:page>/", methods=["GET", "POST"])
+def search(page=0):
     """View function for the search page
 
+    Args:
+        page: page of results to return, default is 0th page
+        request.args: any of the search criteria dictionary
     Returns:
         The rendered template search.html.
 
@@ -67,23 +71,31 @@ def search():
     )
 
     # Populate recipes
+    criteria = {
+        "query": request.args.get("query"),
+        "ingredients": request.args.get("ingredients"),
+        "calories": request.args.get("calories"),
+        "carbohydrate": request.args.get("carbohydrate"),
+        "fat": request.args.get("fat"),
+        "protein": request.args.get("protein"),
+    }
     recipe_search = Recipe.get_recipes_by_criteria(
-        page=0,
+        page=page,
         per_page=8,
-        query=request.args.get("query"),
-        ingredients=request.args.get("ingredients"),
-        calories=request.args.get("calories"),
-        carbohydrate=request.args.get("carbohydrate"),
-        fat=request.args.get("fat"),
-        protein=request.args.get("protein"),
-    ).execute()
+        **criteria,
+    )
 
-    recipes = list(recipe_search)
-
+    try:
+        recipe_search_results = recipe_search.execute()
+        recipes = list(recipe_search_results)
+        total_results = recipe_search_results.hits.total.value
+    except:
+        recipes = []
+        total_results = 0
     return render_template(
         "search.html",
         recipes=recipes,
-        total_results=recipe_search.hits.total.value,
+        total_results=total_results,
         form=form,
     )
 
