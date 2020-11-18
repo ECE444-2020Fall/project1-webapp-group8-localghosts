@@ -134,3 +134,16 @@ input {
     height: 30px;
     border-color: #FEEFDD;
 }
+
+.nav-search-btns {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    align-content: center;
+    padding-bottom: 25px;
+}
+
+#prev-next a {
+    background-color: #FEEFDD;
+}
