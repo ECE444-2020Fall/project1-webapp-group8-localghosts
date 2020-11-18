@@ -5,20 +5,30 @@
 }
 
 .results-container {
+    display: flex;
+    flex-flow: column wrap;
     margin: 20px;
-    height: auto;
-    width: auto;
+    height: 300px;
+    width: 400px;
     background-color: #FEEFDD;
     /* light cream */
     border: none;
     border-radius: 5px;
+    margin: 10px;
+    
 }
 
 .num-res {
     margin-top: 10px;
     margin-left: 8px;
     font-weight: bold;
+}
 
+.result-view {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-content: center;
 }
 
 .recipe-name {
@@ -29,37 +39,108 @@
 
 }
 
-.column1 {
-    margin: 2px;
-    display: inline-flex;
-    flex-direction: column;
-}
-
-img {
+.recipe-pic img {
     content: ' ';
     display: inline-block;
     position: relative;
-    background-repeat: no-repeat;
-    height: 100%;
     width: 100%;
-    background-image: url(https://static.thenounproject.com/png/1422994-200.png);
+    height: 100%;
+    background-repeat: no-repeat;
+    /* background-image: url(http://images.media-allrecipes.com/images/44555.gif); */
+    background-size: 100% 100%;
+    border-radius: 10px;
 }
 
 .recipe-pic {
-    height: 200px;
-    width: 300px;
+    /* height: 200px;
+    width: 300px; */
+    padding: 5px;
     display: inline;
     text-align: center;
-    /* margin-left: 24px;
-    margin-top: 3px;
-    margin-bottom: 3px; */
+    object-fit: contain;
 }
 
 .recipe-desc {
     font-family: 'Open Sans', sans-serif;
     margin: 2px;
-    width: auto;
-    height: auto;
-    display: inline-flex;
-    flex-direction: column;
+    object-fit: contain;
+    /* width: 250px ;
+    height: 100px; */
+    /* display: inline-flex;
+    flex-direction: column; */
 }
+
+#submit {
+    transition-duration: 0.4s;
+    object-fit: contain;
+    border-radius: 10px;
+    color: #241910;
+    margin-top: 5px;
+    
+}
+
+#submit:hover {
+    background-color: #241910; /* Brown Creme */
+    color: white;
+}
+
+
+.search-container {
+    margin: 20px 50px;
+}
+
+.recipe-container {
+    display: inline-flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    width: 30%;
+    
+}
+
+.submit-container {
+    object-fit: contain;
+    margin: 0px;
+}
+
+.quick-search {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}
+
+.ele-search {
+    margin: 10px 0px;
+}
+
+.advanced-search {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+}
+
+#advanced-btn {
+    color: #241910;
+    transition-duration: 0.4s;
+    object-fit: contain;
+
+}
+
+#advanced-btn:hover {
+    background-color: #241910 !important; /* Brown Creme */
+    color:#FEEFDD !important;
+    border-color: #241910 ;
+}
+
+h4 {
+    font-size: 20px;
+    color: #241910;
+}   
+
+input {
+    border-radius: 5px;
+    background-color: #FEEFDD;
+    width: 250px;
+    height: 30px;
+    border-color: #FEEFDD;
+}
+

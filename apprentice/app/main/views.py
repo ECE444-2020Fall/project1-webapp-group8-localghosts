@@ -40,11 +40,11 @@ def search():
 
     if request.method == "GET" and "query" in request.args:
         # i.e. if coming from the index page
-        recipes = Recipe.get_recipes_by_name(request.args["query"], page=0, per_page=50)
+        recipes = Recipe.get_recipes_by_name(request.args["query"], page=0, per_page=6)
     elif request.method == "POST" or form.validate_on_submit():
         # i.e. if coming from an advanced search
         recipes = Recipe.get_recipes_by_advanced(
-            page=0, per_page=50, query=form.recipe.query.data,
+            page=0, per_page=6, query=form.recipe.query.data,
         )
 
     return render_template("search.html", recipes=recipes, form=form)
