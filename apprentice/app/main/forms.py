@@ -14,7 +14,7 @@ class Struct:
 class SearchForm(FlaskForm):
     """Form for searching for a recipe."""
 
-    query = SearchField("Recipe name", [DataRequired()])
+    query = SearchField("Recipe name", [DataRequired()], id="autocomplete", render_kw={"autocomplete": "off"})
     submit = SubmitField("Search", render_kw={"class": "btn btn-success btn-block"})
 
 
