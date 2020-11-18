@@ -88,14 +88,14 @@ def fridge():
     return render_template("fridge.html")
 
 
-@main.route("/list", methods=["GET", "POST"])
+@main.route("/grocerylist", methods=["GET", "POST"])
 @login_required
-def list():
-    """View function for grocery list feature
+def grocerylist():
+    """View function for grocerylist feature
 
-    Note: This feature is not implemented yet. list.html displays a "coming soon" page.
+    Note: This feature is not implemented yet. grocerylist.html displays a "coming soon" page.
 
     Returns:
-        The rendered template for list.html
+        The rendered template for grocerylist.html
     """
-    return render_template("list.html")
+    return render_template("grocerylist.html")
