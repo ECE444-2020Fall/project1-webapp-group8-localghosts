@@ -52,23 +52,11 @@
 }
 
 .recipe-pic {
-    /* height: 200px;
-    width: 300px; */
+    height: 82%;
+    width: 100%;
     padding: 5px;
     display: inline;
     text-align: center;
-    height: 260px;
-    width: 400px;  
-}
-
-.recipe-desc {
-    font-family: 'Open Sans', sans-serif;
-    margin: 2px;
-    object-fit: contain;
-    /* width: 250px ;
-    height: 100px; */
-    /* display: inline-flex;
-    flex-direction: column; */
 }
 
 #submit {
