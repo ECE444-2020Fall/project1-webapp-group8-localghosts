@@ -9,16 +9,50 @@
 
 {% block page_content %}
 
-<div class=nav-container>
-    {{ wtf.quick_form(form) }}
+<div class="search-container">
+
+    <form id="search-form" class="form form-horizontal" method="post" role="form">
+        {{ form.hidden_tag() }}
+        {{ wtf.form_errors(form, hiddens="only") }}
+        <div class="recipe-container">
+            <div class="quick-search">
+                <h4>Quick Search</h4>
+                <div class="ele-search">{{ form.recipe.query }}</div>
+                <div class="ele-search">
+                    {% for ingredient in form.recipe.ingredients %}
+                    {{ ingredient }}
+                    {% endfor %}
+                </div>
+            </div>
+            <button id="advanced-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                Advanced Search
+            </button>
+            <div class="collapse" id="collapseExample">
+                <div class="advanced-search">
+                    {% for nutrient in form.nutrients %}
+                    {% if nutrient.label.text != 'CSRF Token' %}
+                    {{ nutrient.label }} {{ nutrient }}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="submit-container">
+            {{ form.submit }}
+        </div>
+    </form>
+
 </div>
 
 {% if recipes is defined and recipes|length > 0 %}
 <div class=num-res>Search results: {{recipes | length}}</div>
-{% for recipe in recipes %}
-{% include '_search.html' %}
-{% endfor %}
-{% endif %}
+<div class="result-view">
+    {% for recipe in recipes %}
+    {% include '_search.html' %}
+    {% endfor %}
+    {% endif %}
+</div>
 {% endblock %}
 
 <!-- TODO: pagination -->

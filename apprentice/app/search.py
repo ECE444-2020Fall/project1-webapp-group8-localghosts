@@ -171,3 +171,70 @@ class Recipe(Document):
             .query("match", name=query)
             .execute()
         )
+
+    @classmethod
+    def get_recipes_by_advanced(cls, page=0, per_page=10, **criteria):
+        """Advanced search wrapper for Recipes.
+
+        An example set of criteria is as follows:
+        e.g. criteria = {
+            "query": "dip",
+            "ingredients": ["olive oil", "garlic"],
+            "calories": [0, 1000],
+            "carbohydrate": [0, 100],
+            "fat": [0, 100],
+            "protein": [0, 100],
+            "tags": ["gluten-free", "vegetarian"],
+        }
+        Note that all of the items are optional and will be ignored if omitted or
+        if falsy values are provided (e.g. False, None, [], {}, "")
+
+        Usage::
+            >>> # e.g. direct kwargs
+            >>> Recipe.get_recipes_by_advanced(query="dip", "tags"=["vegetarian"])
+            >>> # e.g. splat kwargs
+            >>> criteria = {"query":"dip, "tags":["vegetarian"]}
+            >>> Recipe.get_recipes_by_advanced(**criteria)
+
+        :param query: The recipe name to (partly) match
+        :param page: The page of results to get
+        :param per_page: The size of each page of results to get
+        :param critiera: kwargs as described above
+        :rtype: List[Recipe]
+        """
+        search = cls.search()[page * per_page : (page + 1) * per_page]
+
+        if criteria.get("query"):
+            search = search.query("match", name=criteria.get("query"))
+
+        if criteria.get("ingredients"):
+            search = search.query("terms", ingredients=criteria.get("ingredients"))
+
+        if criteria.get("tags"):
+            search = search.filter(
+                "terms_set",
+                tags__keyword={
+                    "terms": criteria.get("tags"),
+                    "minimum_should_match_script": {"source": "params.num_terms"},
+                },
+            )
+
+        if criteria.get("calories"):
+            min_val, max_val = criteria.get("calories")
+            search = search.filter("range", calories={"gte": min_val, "lte": max_val})
+
+        if criteria.get("carbohydrate"):
+            min_val, max_val = criteria.get("carbohydrate")
+            search = search.filter(
+                "range", carbohydrate={"gte": min_val, "lte": max_val}
+            )
+
+        if criteria.get("fat"):
+            min_val, max_val = criteria.get("fat")
+            search = search.filter("range", fat={"gte": min_val, "lte": max_val})
+
+        if criteria.get("protein"):
+            min_val, max_val = criteria.get("protein")
+            search = search.filter("range", protein={"gte": min_val, "lte": max_val})
+
+        return list(search.execute())
