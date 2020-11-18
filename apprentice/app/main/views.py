@@ -88,7 +88,6 @@ def fridge():
     return render_template("fridge.html")
 
 
-
 @main.route("/grocerylist", methods=["GET", "POST"])
 @login_required
 def grocerylist():
@@ -100,4 +99,3 @@ def grocerylist():
         The rendered template for grocerylist.html
     """
     return render_template("grocerylist.html")
-
