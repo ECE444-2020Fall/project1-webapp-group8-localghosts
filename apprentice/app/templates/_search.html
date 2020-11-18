@@ -11,12 +11,7 @@
     </div>
 
     <div class=recipe-pic>
-        {% if recipe.image %}
-            <img src={{recipe.image}} />
-        {% else %}
-            <img src="http://images.media-allrecipes.com/images/44555.gif" />
-        {% endif %}
-        
+        <img src="{{recipe.get_image_url()}}" />
     </div>
     
     <!-- <div class=recipe-desc> <b>Description:</b> {{recipe.description}} </div> -->
