@@ -39,6 +39,8 @@ def search(page=0):
         On POST request (advanced search form submission), redirects back to a GET request.
         On GET request (from index page), uses the GET request argument for the query.
     """
+    per_page = 20
+
     form = AdvancedSearchForm()
     if request.method == "POST" or form.validate_on_submit():
         return redirect(
@@ -81,7 +83,7 @@ def search(page=0):
     }
     recipe_search = Recipe.get_recipes_by_criteria(
         page=page,
-        per_page=8,
+        per_page=per_page,
         **criteria,
     )
 
@@ -92,11 +94,22 @@ def search(page=0):
     except:
         recipes = []
         total_results = 0
+
+    # Determine pagination
+    prev_url = url_for(".search", page=page - 1, **criteria) if page > 0 else None
+    next_url = (
+        url_for(".search", page=page + 1, **criteria)
+        if ((page + 1) * per_page < total_results)
+        else None
+    )
+
     return render_template(
         "search.html",
         recipes=recipes,
         total_results=total_results,
         form=form,
+        prev_url=prev_url,
+        next_url=next_url,
     )
 
 
