@@ -29,11 +29,10 @@
             </button>
             <div class="collapse" id="collapseExample">
                 <div class="advanced-search">
-                    {% for nutrient in form.nutrients %}
-                    {% if nutrient.label.text != 'CSRF Token' %}
-                    {{ nutrient.label }} {{ nutrient }}
-                    {% endif %}
-                    {% endfor %}
+                    <h4>Calories range:</h4> {{ form.nutrients.minCalories }} - {{ form.nutrients.maxCalories }}</h4>
+                    <h4>Carbs range:</h4> {{ form.nutrients.minCarbs }} - {{ form.nutrients.maxCarbs }}</h4>
+                    <h4>Proteins range:</h4> {{ form.nutrients.minProteins }} - {{ form.nutrients.maxProteins }}</h4>
+                    <h4>Fats range:</h4> {{ form.nutrients.minFats }} - {{ form.nutrients.maxFats }}</h4>
                 </div>
             </div>
         </div>
