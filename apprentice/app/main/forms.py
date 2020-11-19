@@ -14,7 +14,7 @@ class Struct:
 class SearchForm(FlaskForm):
     """Form for searching for a recipe."""
 
-    query = SearchField("Recipe name", [DataRequired()])
+    query = SearchField("Recipe name", [DataRequired()], id="autocomplete", render_kw={"autocomplete": "off"})
     submit = SubmitField("Search", render_kw={"class": "btn btn-success btn-block"})
 
 
@@ -41,26 +41,46 @@ class AdvancedSearchForm(FlaskForm):
     class NutrientsForm(FlaskForm):
         """Form for searching by nutritional information"""
 
-        calories = StringField(
-            "Calories",
-            validators=[Regexp(r"\d+-\d+")],
-            render_kw={"placeholder": "e.g. 0-500"},
+        minCalories = IntegerField(
+            "Minimum Calories",
+            render_kw={"placeholder": "Min"}
         )
-        carbs = StringField(
-            "Carbs",
-            validators=[Regexp(r"\d+-\d+")],
-            render_kw={"placeholder": "e.g. 0-500"},
+
+        maxCalories = IntegerField(
+            "Maximum Calories",
+            render_kw={"placeholder": "Max"}
         )
-        fats = StringField(
+
+        minCarbs = IntegerField(
+            "Minimum Carbs",
+            render_kw={"placeholder": "Min"}
+        )
+
+        maxCarbs = IntegerField(
+            "Maximum Carbs",
+            render_kw={"placeholder": "Max"}
+        )
+
+        minProteins = IntegerField(
+            "Proteins",
+            render_kw={"placeholder": "Min"}
+        )
+
+        maxProteins = IntegerField(
+            "Proteins",
+            render_kw={"placeholder": "Max"}
+        )
+
+        minFats = IntegerField(
             "Fats",
-            validators=[Regexp(r"\d+-\d+")],
-            render_kw={"placeholder": "e.g. 0-500"},
+            render_kw={"placeholder": "Min"}
         )
-        protein = StringField(
-            "Protein",
-            validators=[Regexp(r"\d+-\d+")],
-            render_kw={"placeholder": "e.g. 0-500"},
+
+        maxFats = IntegerField(
+            "Fats",
+            render_kw={"placeholder": "Max"}
         )
+
 
     recipe = FormField(RecipeForm)
     nutrients = FormField(NutrientsForm)
