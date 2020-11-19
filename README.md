@@ -56,4 +56,5 @@ docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --exi
 - Code needs to be formatted as follows:
     - Imports need to be sorted using **isort**
     - **Black** should be used for formatting
-    - JavaScript code needs to be beautified using **js-beautify**
+    - Frontend code (js/css/html) needs to be beautified using **js-beautify**
+The code formatting and tests will be enforced on PR through the use of GitHub actions.
