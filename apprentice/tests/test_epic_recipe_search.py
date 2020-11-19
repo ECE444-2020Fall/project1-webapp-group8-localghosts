@@ -58,10 +58,9 @@ class RecipeSearchTestCase(unittest.TestCase):
                 ).execute()
             )
         )
+
     def test_recipe_suggestions(self):
         for query in ["chicken", "salad"]:
-            results = list(
-                Recipe.get_recipe_suggestions(query).execute()
-            )
+            results = list(Recipe.get_recipe_suggestions(query).execute())
             for result in results:
                 self.assertIn(query, result.name.lower())
