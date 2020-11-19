@@ -7,16 +7,16 @@
 
 {% block page_content %}
 
-<div class="jumbotron">
+<div class="jumbotron dark">
     <div class="container">
         <div class="row">
 
             <div class="col-md-6">
-                <img src="{{ image_url }}">
+                <img src="{{ image_url }} " class="jumbotron-image">
             </div>
 
             <div class="col-md-6">
-                <h1 class="jumbotron-text">{{ recipe.name }}</h1>
+                <h2>{{ recipe.name }}</h2>
 
                 <span class="glyphicon glyphicon-time"></span>
                 <span class="recipe-info">Prep time: {% if recipe.prepTime %} {{ recipe.prepTime }} {% else %} N/A {% endif %}</span>
