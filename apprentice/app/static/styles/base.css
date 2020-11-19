@@ -17,13 +17,14 @@ h4 {
     /* light cream */
 }
 
-.display-user {  
+.display-user {
     padding-top: 5px;
     padding-right: 15px;
     display: inline-block;
     align-content: center;
     text-align: center;
 }
+
 .recipe-info {
     font-size: 20px;
     color: #d4af85;

@@ -43,7 +43,9 @@
             <div class="login-elements">
 
                 {% if current_user.is_authenticated %}
-                <div class="display-user"><h4>Signed in as {{ current_user.username }}</h4></div>
+                <div class="display-user">
+                    <h4>Signed in as {{ current_user.username }}</h4>
+                </div>
                 {% else %}
                 <a href="{{url_for('auth.login')}}"> <i class="fas fa-sign-in-alt"></i> Login</a>
                 {% endif %}
