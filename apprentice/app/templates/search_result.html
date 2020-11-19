@@ -1,11 +1,7 @@
 <div class=results-container onclick="location.href='recipe/{{recipe.meta.id}}';" onmouseover="style='cursor: pointer;'">
-    <!-- TODO: refactor the above.
-        Technically the onclick and onmouseover works but it's bad practice. 
-        Links should be done with anchor/href for accessibility reasons
-        @whoever optimizes the UI later see https://stackoverflow.com/q/796087 for alternatives-->
 
     <div class=recipe-name>
-        <a href={{recipe.url}}>
+        <a href="{{ url_for('main.recipe', recipe_id=recipe.meta.id) }}">
             <h5><b>{{recipe.name}}</b></h5>
         </a>
     </div>
