@@ -1,4 +1,4 @@
-from flask import abort, redirect, render_template, request, session, url_for, jsonify
+from flask import abort, jsonify, redirect, render_template, request, session, url_for
 from flask_login import login_required
 
 from ..search import Recipe
@@ -56,6 +56,7 @@ def search(page=0):
                 _method="GET",
                 query=form.recipe.query.data,
                 ingredients=form.recipe.ingredients.data,
+                tags=",".join(form.recipe.tags.data),
                 minCalories=form.nutrients.minCalories.data,
                 maxCalories=form.nutrients.maxCalories.data,
                 minCarbs=form.nutrients.minCarbs.data,
@@ -63,15 +64,20 @@ def search(page=0):
                 minProteins=form.nutrients.minProteins.data,
                 maxProteins=form.nutrients.maxProteins.data,
                 minFats=form.nutrients.minFats.data,
-                maxFats=form.nutrients.maxFats.data
+                maxFats=form.nutrients.maxFats.data,
             )
         )
+
+    tags = []
+    if request.args.get("tags"):
+        tags = request.args.get("tags").split(",")
 
     # Populate form data from before if available
     form.recipe.form.populate_obj(
         Struct(
             query=request.args.get("query"),
             ingredients=request.args.get("ingredients"),
+            tags=tags,
         )
     )
     form.nutrients.form.populate_obj(
@@ -83,7 +89,7 @@ def search(page=0):
             minProteins=request.args.get("minProteins"),
             maxProteins=request.args.get("maxProteins"),
             minFats=request.args.get("minFats"),
-            maxFats=request.args.get("maxFats")
+            maxFats=request.args.get("maxFats"),
         )
     )
 
@@ -91,6 +97,7 @@ def search(page=0):
     criteria = {
         "query": request.args.get("query"),
         "ingredients": request.args.get("ingredients"),
+        "tags": tags,
         "minCalories": request.args.get("minCalories"),
         "maxCalories": request.args.get("maxCalories"),
         "minCarbs": request.args.get("minCarbs"),
@@ -98,14 +105,12 @@ def search(page=0):
         "minProteins": request.args.get("minProteins"),
         "maxProteins": request.args.get("maxProteins"),
         "minFats": request.args.get("minFats"),
-        "maxFats": request.args.get("maxFats")
+        "maxFats": request.args.get("maxFats"),
     }
 
     try:
         recipe_search_results = Recipe.get_recipes_by_criteria(
-            page=page,
-            per_page=per_page,
-            **criteria
+            page=page, per_page=per_page, **criteria
         ).execute()
 
         recipes = list(recipe_search_results)

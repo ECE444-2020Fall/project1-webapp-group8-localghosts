@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import FieldList, FormField, StringField, SubmitField
+from wtforms import FieldList, FormField, SelectMultipleField, StringField, SubmitField
 from wtforms.fields.html5 import IntegerField, SearchField
 from wtforms.validators import DataRequired, Regexp
+from wtforms.widgets import CheckboxInput, ListWidget
 
 
 class Struct:
@@ -11,10 +12,22 @@ class Struct:
         self.__dict__.update(entries)
 
 
+class MultiCheckboxField(SelectMultipleField):
+    """Adapted from https://gist.github.com/ectrimble20/468156763a1389a913089782ab0f272e"""
+
+    widget = ListWidget(prefix_label=False)
+    option_widget = CheckboxInput()
+
+
 class SearchForm(FlaskForm):
     """Form for searching for a recipe."""
 
-    query = SearchField("Recipe name", [DataRequired()], id="autocomplete", render_kw={"autocomplete": "off"})
+    query = SearchField(
+        "Recipe name",
+        [DataRequired()],
+        id="autocomplete",
+        render_kw={"autocomplete": "off"},
+    )
     submit = SubmitField("Search", render_kw={"class": "btn btn-success btn-block"})
 
 
@@ -36,51 +49,33 @@ class AdvancedSearchForm(FlaskForm):
             ),
             min_entries=1,
         )
-        # https://wtforms.readthedocs.io/en/2.3.x/fields/ to make ^ look better
+        tags = MultiCheckboxField(
+            "Tags",
+            choices=[
+                ("gluten-free", "Gluten Free"),
+                ("vegetarian", "Vegetarian"),
+                ("vegan", "Vegan"),
+            ],
+        )
 
     class NutrientsForm(FlaskForm):
         """Form for searching by nutritional information"""
 
-        minCalories = IntegerField(
-            "Minimum Calories",
-            render_kw={"placeholder": "Min"}
-        )
+        minCalories = IntegerField("Minimum Calories", render_kw={"placeholder": "Min"})
 
-        maxCalories = IntegerField(
-            "Maximum Calories",
-            render_kw={"placeholder": "Max"}
-        )
+        maxCalories = IntegerField("Maximum Calories", render_kw={"placeholder": "Max"})
 
-        minCarbs = IntegerField(
-            "Minimum Carbs",
-            render_kw={"placeholder": "Min"}
-        )
+        minCarbs = IntegerField("Minimum Carbs", render_kw={"placeholder": "Min"})
 
-        maxCarbs = IntegerField(
-            "Maximum Carbs",
-            render_kw={"placeholder": "Max"}
-        )
+        maxCarbs = IntegerField("Maximum Carbs", render_kw={"placeholder": "Max"})
 
-        minProteins = IntegerField(
-            "Proteins",
-            render_kw={"placeholder": "Min"}
-        )
+        minProteins = IntegerField("Proteins", render_kw={"placeholder": "Min"})
 
-        maxProteins = IntegerField(
-            "Proteins",
-            render_kw={"placeholder": "Max"}
-        )
+        maxProteins = IntegerField("Proteins", render_kw={"placeholder": "Max"})
 
-        minFats = IntegerField(
-            "Fats",
-            render_kw={"placeholder": "Min"}
-        )
+        minFats = IntegerField("Fats", render_kw={"placeholder": "Min"})
 
-        maxFats = IntegerField(
-            "Fats",
-            render_kw={"placeholder": "Max"}
-        )
-
+        maxFats = IntegerField("Fats", render_kw={"placeholder": "Max"})
 
     recipe = FormField(RecipeForm)
     nutrients = FormField(NutrientsForm)

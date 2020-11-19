@@ -23,6 +23,12 @@
                     {{ ingredient }}
                     {% endfor %}
                 </div>
+                {% for choice in form.recipe.tags %}
+                    <div class="form-check">
+                        {{ choice(class="form-check-input") }}
+                        {{ choice.label(class="form-check-label") }}
+                    </div>
+                {% endfor %}
             </div>
             <button id="advanced-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Advanced Search
@@ -49,7 +55,7 @@
 <div class=num-res>Search results: {{total_results}}</div>
 <div class="result-view">
     {% for recipe in recipes %}
-    {% include '_search.html' %}
+    {% include 'search_result.html' %}
     {% endfor %}
 </div>
 
