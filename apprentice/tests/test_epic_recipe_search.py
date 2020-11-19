@@ -84,18 +84,30 @@ class RecipeSearchTestCase(unittest.TestCase):
             # Ingredients are an any-match
             ingredients_match = False
             for ingredient in criteria["ingredients"].split(","):
-                ingredients_match |= any(ingredient in src.lower() for src in result.ingredients)
+                ingredients_match |= any(
+                    ingredient in src.lower() for src in result.ingredients
+                )
             self.assertTrue(ingredients_match)
 
             # Tags are an all-match
             for tag in criteria["tags"]:
                 self.assertIn(tag, result.tags)
 
-            self.assertIn(result.calories, range(criteria["minCalories"], criteria["maxCalories"]+1))
-            self.assertIn(result.carbohydrate, range(criteria["minCarbs"], criteria["maxCarbs"]+1))
-            self.assertIn(result.fat, range(criteria["minFats"], criteria["maxFats"]+1))
-            self.assertIn(result.protein, range(criteria["minProteins"], criteria["maxProteins"]+1))
-
+            self.assertIn(
+                result.calories,
+                range(criteria["minCalories"], criteria["maxCalories"] + 1),
+            )
+            self.assertIn(
+                result.carbohydrate,
+                range(criteria["minCarbs"], criteria["maxCarbs"] + 1),
+            )
+            self.assertIn(
+                result.fat, range(criteria["minFats"], criteria["maxFats"] + 1)
+            )
+            self.assertIn(
+                result.protein,
+                range(criteria["minProteins"], criteria["maxProteins"] + 1),
+            )
 
     def test_recipe_suggestions(self):
         for query in ["chicken", "salad"]:
@@ -103,10 +115,12 @@ class RecipeSearchTestCase(unittest.TestCase):
             for result in results:
                 self.assertIn(query, result.name.lower())
 
+
 class RecipeSearchRenderTestCase(unittest.TestCase):
     """
     app_1      | app/main/views.py                          52     25    52%   19, 31-32, 49-130, 174, 187
     """
+
     def setUp(self):
         """Setup app context and database"""
         self.app = create_app("testing")
@@ -119,7 +133,7 @@ class RecipeSearchRenderTestCase(unittest.TestCase):
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
-    
+
     def test_simple_search(self):
         # GET the page
         response = self.app.test_client().get("/")

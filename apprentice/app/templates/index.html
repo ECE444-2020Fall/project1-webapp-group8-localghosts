@@ -49,7 +49,7 @@
 
 <script>
     $('#autocomplete').autocomplete({
-        source:function(request, response) {
+        source: function(request, response) {
             $.getJSON("/search/autocomplete", {
                 query: request.term,
             }, function(data) {
