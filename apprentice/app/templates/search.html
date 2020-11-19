@@ -23,19 +23,27 @@
                     {{ ingredient }}
                     {% endfor %}
                 </div>
+                {% for choice in form.recipe.tags %}
+                    <div class="form-check">
+                        {{ choice(class="form-check-input") }}
+                        {{ choice.label(class="form-check-label") }}
+                    </div>
+                {% endfor %}
             </div>
             <button id="advanced-btn" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 Advanced Search
             </button>
             <div class="collapse" id="collapseExample">
                 <div class="advanced-search">
-                    <h4>Calories range:</h4> {{ form.nutrients.minCalories }} - {{ form.nutrients.maxCalories }}</h4>
-                    <h4>Carbs range:</h4> {{ form.nutrients.minCarbs }} - {{ form.nutrients.maxCarbs }}</h4>
-                    <h4>Proteins range:</h4> {{ form.nutrients.minProteins }} - {{ form.nutrients.maxProteins }}</h4>
-                    <h4>Fats range:</h4> {{ form.nutrients.minFats }} - {{ form.nutrients.maxFats }}</h4>
+                    <div class="container">
+                            <h4>Calories range:</h4>   {{ form.nutrients.minCalories }} - {{ form.nutrients.maxCalories }}</h4>
+                            <h4>Carbs range:</h4>  {{ form.nutrients.minCarbs }} - {{ form.nutrients.maxCarbs }}</h4>
+                            <h4>Proteins range:</h4>  {{ form.nutrients.minProteins }} - {{ form.nutrients.maxProteins }}</h4>
+                            <h4>Fats range:</h4>   {{ form.nutrients.minFats }} - {{ form.nutrients.maxFats }}</h4> 
+                    </div>
                 </div>
             </div>
-        </div>
+        </di    v>
 
         <div class="submit-container">
             {{ form.submit }}
@@ -57,12 +65,10 @@
         <li class="previous{% if not prev_url %} disabled{% endif %}">
             <a href="{{ prev_url or '#' }}">
                 <span aria-hidden="true" class="page-link">Previous</span>
-                <!-- <span aria-hidden="true">&larr;</span> -->
             </a>
         </li>
         <li class="next{% if not next_url %} disabled{% endif %}">
             <a href="{{ next_url or '#' }}">
-                <!-- <span aria-hidden="true">&rarr;</span> -->
                 <span aria-hidden="true" class="page-link">Next</span>
             </a>
         </li>

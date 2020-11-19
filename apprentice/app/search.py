@@ -1,7 +1,8 @@
 import requests
-from elasticsearch_dsl import Document, Keyword, Short, Text, Q
+from elasticsearch_dsl import Document, Keyword, Q, Short, Text
 from flask import current_app, url_for
 from google_images_search import GoogleImagesSearch
+
 
 class Recipe(Document):
     """Python representation of a Recipe document in Elasticsearch.
@@ -195,7 +196,10 @@ class Recipe(Document):
         search = cls.search()[page * per_page : (page + 1) * per_page]
 
         if criteria.get("query"):
-            search = search.query(Q("fuzzy", name=criteria.get("query")) | Q("match", name=criteria.get("query")))
+            search = search.query(
+                Q("fuzzy", name=criteria.get("query"))
+                | Q("match", name=criteria.get("query"))
+            )
 
         if criteria.get("ingredients"):
             ingredients = criteria.get("ingredients")
@@ -213,22 +217,30 @@ class Recipe(Document):
             )
 
         if criteria.get("minCalories"):
-            search = search.filter("range", calories={"gte": criteria.get("minCalories")})
+            search = search.filter(
+                "range", calories={"gte": criteria.get("minCalories")}
+            )
 
         if criteria.get("maxCalories"):
-            search = search.filter("range", calories={"lte": criteria.get("maxCalories")})
+            search = search.filter(
+                "range", calories={"lte": criteria.get("maxCalories")}
+            )
 
         if criteria.get("minCarbs"):
             search = search.filter("range", calories={"gte": criteria.get("minCarbs")})
 
         if criteria.get("maxCarbs"):
             search = search.filter("range", calories={"lte": criteria.get("maxCarbs")})
-            
+
         if criteria.get("minProteins"):
-            search = search.filter("range", calories={"gte": criteria.get("minProteins")})
+            search = search.filter(
+                "range", calories={"gte": criteria.get("minProteins")}
+            )
 
         if criteria.get("maxProteins"):
-            search = search.filter("range", calories={"lte": criteria.get("maxProteins")})
+            search = search.filter(
+                "range", calories={"lte": criteria.get("maxProteins")}
+            )
 
         if criteria.get("minFats"):
             search = search.filter("range", calories={"gte": criteria.get("minFats")})
