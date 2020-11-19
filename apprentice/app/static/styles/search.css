@@ -147,3 +147,7 @@ input {
 #prev-next a {
     background-color: #FEEFDD;
 }
+
+.container {
+    max-width: 650px;
+}
