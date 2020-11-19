@@ -117,10 +117,6 @@ class RecipeSearchTestCase(unittest.TestCase):
 
 
 class RecipeSearchRenderTestCase(unittest.TestCase):
-    """
-    app_1      | app/main/views.py                          52     25    52%   19, 31-32, 49-130, 174, 187
-    """
-
     def setUp(self):
         """Setup app context and database"""
         self.app = create_app("testing")
@@ -161,4 +157,4 @@ class RecipeSearchRenderTestCase(unittest.TestCase):
     def test_autocomplete_suggestions(self):
         # GET the page
         response = self.app.test_client().get("/search/autocomplete?query=chicken")
-        self.assertGreaterEqual(len(response.data), len("[]"))
+        self.assertEqual(response.status_code, 200)

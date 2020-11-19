@@ -40,7 +40,6 @@ class AdvancedSearchForm(FlaskForm):
 
         query = SearchField(
             "Recipe name",
-            [DataRequired()],
             render_kw={"placeholder": "Search by recipe name"},
         )
         ingredients = FieldList(
