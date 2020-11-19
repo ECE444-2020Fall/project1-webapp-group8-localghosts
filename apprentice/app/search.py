@@ -160,12 +160,16 @@ class Recipe(Document):
         An example set of criteria is as follows:
         e.g. criteria = {
             "query": "dip",
-            "ingredients": ["olive oil", "garlic"],
-            "calories": [0, 1000],
-            "carbohydrate": [0, 100],
-            "fat": [0, 100],
-            "protein": [0, 100],
+            "ingredients": "olive oil, garlic",
             "tags": ["gluten-free", "vegetarian"],
+            "minCalories": 0,
+            "maxCalories": 100,
+            "minCarbs": 0,
+            "maxCarbs": 100,
+            "minProteins": 0,
+            "maxProteins": 100,
+            "minFats": 0,
+            "maxFats": 100,
         }
         Note that all of the items are optional and will be ignored if omitted or
         if falsy values are provided (e.g. False, None, [], {}, "")
