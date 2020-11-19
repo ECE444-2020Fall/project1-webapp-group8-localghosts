@@ -51,4 +51,9 @@ docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --exi
 
 ## Contribution guidelines
 
-todo, but we should agree on things like unit tests and code formatting etc
+- All Unit tests must pass before a branch can be merged into develop.
+- All new code must have unit tests before it can be merged. 
+- Code needs to be formatted as follows:
+    - Imports need to be sorted using **isort**
+    - **Black** should be used for formatting
+    - JavaScript code needs to be beautified using **js-beautify**
