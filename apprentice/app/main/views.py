@@ -19,6 +19,7 @@ def index():
         return redirect(url_for(".search", _method="GET", query=form.query.data))
     return render_template(
         "index.html",
+        id="home",
         form=form,
         name=session.get("name"),
         known=session.get("known", False),
@@ -123,6 +124,7 @@ def search(page=0):
 
     return render_template(
         "search.html",
+        id="search",
         recipes=recipes,
         total_results=total_results,
         form=form,
@@ -164,7 +166,7 @@ def fridge():
     Returns:
         The rendered template for fridge.html.
     """
-    return render_template("fridge.html")
+    return render_template("fridge.html", id="my-fridge")
 
 
 @main.route("/grocerylist", methods=["GET", "POST"])
@@ -177,4 +179,4 @@ def grocerylist():
     Returns:
         The rendered template for grocerylist.html
     """
-    return render_template("grocerylist.html")
+    return render_template("grocerylist.html", id="grocery-list")

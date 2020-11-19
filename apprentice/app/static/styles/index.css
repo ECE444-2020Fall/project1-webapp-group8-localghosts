@@ -35,3 +35,12 @@ div .col-md-6 {
     /* dark cream */
     font-size: 80px;
 }
+
+#autocomplete {
+    background-color: #FEEFDD;
+    color: black;
+}
+
+#submit {
+    background-color: #FEEFDD;
+}
