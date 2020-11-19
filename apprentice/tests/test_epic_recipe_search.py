@@ -102,3 +102,49 @@ class RecipeSearchTestCase(unittest.TestCase):
             results = list(Recipe.get_recipe_suggestions(query).execute())
             for result in results:
                 self.assertIn(query, result.name.lower())
+
+class RecipeSearchRenderTestCase(unittest.TestCase):
+    """
+    app_1      | app/main/views.py                          52     25    52%   19, 31-32, 49-130, 174, 187
+    """
+    def setUp(self):
+        """Setup app context and database"""
+        self.app = create_app("testing")
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        """Ends session and drops database"""
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+    
+    def test_simple_search(self):
+        # GET the page
+        response = self.app.test_client().get("/")
+        self.assertEqual(response.status_code, 200)
+        # POST a search
+        response = self.app.test_client().post(
+            "/",
+            data=dict(query="test"),
+            follow_redirects=True,
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_advanced_search(self):
+        # GET the page
+        response = self.app.test_client().get("/search")
+        self.assertEqual(response.status_code, 200)
+        # POST a search
+        response = self.app.test_client().post(
+            "/search",
+            data=dict(query="test", tags="vegetarian"),
+            follow_redirects=True,
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_autocomplete_suggestions(self):
+        # GET the page
+        response = self.app.test_client().get("/search/autocomplete?query=chicken")
+        self.assertGreaterEqual(len(response.data), len("[]"))
