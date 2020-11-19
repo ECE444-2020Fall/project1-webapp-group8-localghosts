@@ -1,4 +1,4 @@
-<div class=results-container onclick="location.href='recipe/{{recipe.meta.id}}';" onmouseover="style='cursor: pointer;'">
+<div class=results-container onclick="location.href='/recipe/{{recipe.meta.id}}';" onmouseover="style='cursor: pointer;'">
 
     <div class=recipe-name>
         <a href="{{ url_for('main.recipe', recipe_id=recipe.meta.id) }}">
