@@ -15,7 +15,14 @@ h2 {
 h4 {
     color: #FEEFDD;
     /* light cream */
-    margin-right: 50px
+}
+
+.display-user {
+    padding-top: 5px;
+    padding-right: 15px;
+    display: inline-block;
+    align-content: center;
+    text-align: center;
 }
 
 .recipe-info {
@@ -198,4 +205,12 @@ img .jumbotron-image {
     width: 500px;
     height: auto float: left;
     margin: 0px 15px 15px 0px;
+}
+
+.login-elements {
+    display: flex;
+    flex-direction: row;
+    float: right;
+    align-content: center;
+    text-align: center;
 }

@@ -28,3 +28,7 @@ p {
 #nutrition-info {
     align: left
 }
+
+.col-md-6 img {
+    max-width: 100%;
+}
