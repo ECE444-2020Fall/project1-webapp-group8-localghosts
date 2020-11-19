@@ -8,12 +8,12 @@
 {% block page_content %}
 
 
-<div class="jumbotron">
+<div class="jumbotron dark">
     <div class="container">
         <div class="row">
 
             <div class="col-md-7">
-                <h1 class="jumbotron-text"> Grocery List Coming soon! </h1>
+                <h2> Grocery List Coming soon! </h2>
 
                 <br>
                 <span class="glyphicon glyphicon-list"></span>
@@ -29,11 +29,10 @@
             </div>
 
             <div class="col-md-5">
-                <img src="{{ url_for('static', filename='images/grocery_list_preview.png') }}">
+                <img src="{{ url_for('static', filename='images/grocery_list_preview.png') }}" class="jumbotron-image">
             </div>
         </div>
     </div>
 </div>
-
 
 {% endblock %}

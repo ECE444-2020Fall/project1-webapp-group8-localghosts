@@ -7,12 +7,12 @@
 
 {% block page_content %}
 
-<div class="jumbotron">
+<div class="jumbotron dark">
     <div class="container">
         <div class="row">
 
             <div class="col-md-6">
-                <h1 class="jumbotron-text"> Virtual Inventory Coming soon! </h1>
+                <h2> Virtual Inventory Coming soon! </h2>
 
                 <h4 class="recipe-info">Keep track of your groceries...</h4>
                 <br><br><br>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="col-md-6">
-                <img src="{{ url_for('static', filename='images/fridge_preview.png') }}">
+                <img src="{{ url_for('static', filename='images/fridge_preview.png') }}" class="jumbotron-image">
             </div>
         </div>
     </div>

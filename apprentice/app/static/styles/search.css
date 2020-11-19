@@ -52,22 +52,11 @@
 }
 
 .recipe-pic {
-    /* height: 200px;
-    width: 300px; */
+    height: 82%;
+    width: 100%;
     padding: 5px;
     display: inline;
     text-align: center;
-    object-fit: contain;
-}
-
-.recipe-desc {
-    font-family: 'Open Sans', sans-serif;
-    margin: 2px;
-    object-fit: contain;
-    /* width: 250px ;
-    height: 100px; */
-    /* display: inline-flex;
-    flex-direction: column; */
 }
 
 #submit {
@@ -144,4 +133,43 @@ input {
     width: 250px;
     height: 30px;
     border-color: #FEEFDD;
+}
+
+.nav-search-btns {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-self: center;
+    align-content: center;
+    padding-bottom: 25px;
+}
+
+#prev-next a {
+    background-color: #FEEFDD;
+}
+
+.container {
+    max-width: 650px;
+}
+
+.form-check-input {
+    max-width: 20px;
+    background-color: #FEEFDD;
+    color: #FEEFDD;
+}
+
+.form-check {
+    display: flex;
+    align-content: center;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+
+.form-check-label {
+    display: flex;
+    vertical-align: middle;
+    text-align: center;
+    padding-top: 10px;
+    padding-left: 10px;
 }

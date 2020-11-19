@@ -1,5 +1,5 @@
 import requests
-from elasticsearch_dsl import Document, Keyword, Short, Text
+from elasticsearch_dsl import Document, Keyword, Q, Short, Text
 from flask import current_app, url_for
 from google_images_search import GoogleImagesSearch
 
@@ -154,61 +154,62 @@ class Recipe(Document):
             return None
 
     @classmethod
-    def get_recipes_by_name(cls, query, page=0, per_page=10):
-        """Return a list of Recipes, considering pagination, whose names
-        match the provided query
-
-        Args:
-            query: The recipe name to (partly) match
-            page: The page of results to get
-            per_page: The size of each page of results to get.
-
-        Returns:
-            a list of Recipe objects.
-        """
-        return list(
-            cls.search()[page * per_page : (page + 1) * per_page]
-            .query("match", name=query)
-            .execute()
-        )
-
-    @classmethod
-    def get_recipes_by_advanced(cls, page=0, per_page=10, **criteria):
+    def get_recipes_by_criteria(cls, page=0, per_page=10, **criteria):
         """Advanced search wrapper for Recipes.
 
         An example set of criteria is as follows:
         e.g. criteria = {
             "query": "dip",
-            "ingredients": ["olive oil", "garlic"],
-            "calories": [0, 1000],
-            "carbohydrate": [0, 100],
-            "fat": [0, 100],
-            "protein": [0, 100],
+            "ingredients": "olive oil, garlic",
             "tags": ["gluten-free", "vegetarian"],
+            "minCalories": 0,
+            "maxCalories": 100,
+            "minCarbs": 0,
+            "maxCarbs": 100,
+            "minProteins": 0,
+            "maxProteins": 100,
+            "minFats": 0,
+            "maxFats": 100,
         }
         Note that all of the items are optional and will be ignored if omitted or
         if falsy values are provided (e.g. False, None, [], {}, "")
 
         Usage::
             >>> # e.g. direct kwargs
-            >>> Recipe.get_recipes_by_advanced(query="dip", "tags"=["vegetarian"])
+            >>> Recipe.get_recipes_by_criteria(query="dip", tags=["vegetarian"]).execute()
             >>> # e.g. splat kwargs
             >>> criteria = {"query":"dip, "tags":["vegetarian"]}
-            >>> Recipe.get_recipes_by_advanced(**criteria)
+            >>> Recipe.get_recipes_by_criteria(**criteria).execute()
 
-        :param query: The recipe name to (partly) match
-        :param page: The page of results to get
-        :param per_page: The size of each page of results to get
-        :param critiera: kwargs as described above
-        :rtype: List[Recipe]
+        Args:
+            page: The page of results to get
+            per_page: The size of each page of results to get
+            critiera: kwargs of the below
+                query: The recipe name to (partly) match
+                ingredients: List of ingredients the recipe should contain (any)
+                tags: List of tags the recipe should match
+                calories: Integer tuple range
+                carbohydrate: Integer tuple range
+                fat: Integer tuple range
+                protein: Integer tuple range
+
+        Returns:
+            An elasticsearch_dsl.Search object, which you can get a list
+            of recipes out of by doing list(search_object.execute())
         """
         search = cls.search()[page * per_page : (page + 1) * per_page]
 
         if criteria.get("query"):
-            search = search.query("match", name=criteria.get("query"))
+            search = search.query(
+                Q("fuzzy", name=criteria.get("query"))
+                | Q("match", name=criteria.get("query"))
+            )
 
         if criteria.get("ingredients"):
-            search = search.query("terms", ingredients=criteria.get("ingredients"))
+            ingredients = criteria.get("ingredients")
+            if isinstance(ingredients, str):
+                ingredients = [i.strip() for i in ingredients.split(",")]
+            search = search.query("terms", ingredients=ingredients)
 
         if criteria.get("tags"):
             search = search.filter(
@@ -219,22 +220,44 @@ class Recipe(Document):
                 },
             )
 
-        if criteria.get("calories"):
-            min_val, max_val = criteria.get("calories")
-            search = search.filter("range", calories={"gte": min_val, "lte": max_val})
-
-        if criteria.get("carbohydrate"):
-            min_val, max_val = criteria.get("carbohydrate")
+        if criteria.get("minCalories"):
             search = search.filter(
-                "range", carbohydrate={"gte": min_val, "lte": max_val}
+                "range", calories={"gte": criteria.get("minCalories")}
             )
 
-        if criteria.get("fat"):
-            min_val, max_val = criteria.get("fat")
-            search = search.filter("range", fat={"gte": min_val, "lte": max_val})
+        if criteria.get("maxCalories"):
+            search = search.filter(
+                "range", calories={"lte": criteria.get("maxCalories")}
+            )
 
-        if criteria.get("protein"):
-            min_val, max_val = criteria.get("protein")
-            search = search.filter("range", protein={"gte": min_val, "lte": max_val})
+        if criteria.get("minCarbs"):
+            search = search.filter("range", calories={"gte": criteria.get("minCarbs")})
 
-        return list(search.execute())
+        if criteria.get("maxCarbs"):
+            search = search.filter("range", calories={"lte": criteria.get("maxCarbs")})
+
+        if criteria.get("minProteins"):
+            search = search.filter(
+                "range", calories={"gte": criteria.get("minProteins")}
+            )
+
+        if criteria.get("maxProteins"):
+            search = search.filter(
+                "range", calories={"lte": criteria.get("maxProteins")}
+            )
+
+        if criteria.get("minFats"):
+            search = search.filter("range", calories={"gte": criteria.get("minFats")})
+
+        if criteria.get("maxFats"):
+            search = search.filter("range", calories={"lte": criteria.get("maxFats")})
+
+        return search
+
+    @classmethod
+    def get_recipe_suggestions(cls, prefix):
+        search = cls.search()
+        search = search.query(
+            Q("match_phrase_prefix", name=prefix) | Q("prefix", name=prefix)
+        )
+        return search

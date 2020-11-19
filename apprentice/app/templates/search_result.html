@@ -1,0 +1,14 @@
+<div class=results-container onclick="location.href='recipe/{{recipe.meta.id}}';" onmouseover="style='cursor: pointer;'">
+
+    <div class=recipe-name>
+        <a href="{{ url_for('main.recipe', recipe_id=recipe.meta.id) }}">
+            <h5><b>{{recipe.name}}</b></h5>
+        </a>
+    </div>
+
+    <div class=recipe-pic>
+        <!--Don't use recipe.get_image_url() as that runs syncronously and kills page loading time-->
+        <img src="{{recipe.image}}" onerror="if (this.src != '/static/images/default_recipe_image.jpg') this.src = '/static/images/default_recipe_image.jpg';" />
+    </div>
+
+</div>

@@ -5,6 +5,6 @@ version: "3.8"
 # See docs for explanation if you're curious https://docs.docker.com/compose/extends/
 services:
   app:
-    command: [ "flask", "test" ]
+    command: bash -c 'coverage run --source=. -m flask test && coverage report -m && coverage report | tail -1 | grep -o "[0-9]*%"'
     environment:
       - "WAIT_AFTER_HOSTS=5"
