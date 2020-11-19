@@ -8,7 +8,15 @@
 
     <div class=recipe-pic>
         <!--Don't use recipe.get_image_url() as that runs syncronously and kills page loading time-->
-        <img src="{{recipe.image}}" onerror="if (this.src != '/static/images/default_recipe_image.jpg') this.src = '/static/images/default_recipe_image.jpg';" />
+        <img src="{{recipe.image}}" onerror="imgError(this);" />
     </div>
+
+    <script>
+    function imgError(image) {
+    image.onerror = "";
+    image.src = "/static/images/default_recipe_image.jpg";
+    return true;
+    }
+    </script>
 
 </div>
