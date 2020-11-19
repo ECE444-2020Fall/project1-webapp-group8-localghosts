@@ -1,0 +1,34 @@
+.recipe-info-title {
+    font-size: 25px;
+    font-color: #241910;
+    font-weight: 1000;
+    margin-left: 20px;
+}
+
+.glyphicon.recipe-info {
+    color: #241910;
+    font-size: 30px;
+    margin-left: 5px;
+}
+
+p {
+    background: #241910;
+    padding: 7px;
+    border-radius: 8px;
+    margin-left: 5px;
+    font-size: 18px;
+    color: #FEEFDD;
+}
+
+.ingredients {
+    height: 550px;
+    overflow-y: scroll;
+}
+
+#nutrition-info {
+    align: left
+}
+
+.col-md-6 img {
+    max-width: 100%;
+}

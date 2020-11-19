@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+
+{% extends "bootstrap/base.html" %}
+
+{% block html_attribs %} lang="en"{% endblock %}
+
+{% block title %}APPrentice{% endblock %}
+
+{% block head %}
+{{ super() }}
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+<link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/base.css') }}">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+{% endblock %}
+
+<body>
+
+    {% block navbar %}
+    <a href="{{ url_for('main.index') }}">
+        <h1>APPrentice</h1>
+    </a>
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <div class="container-fluid">
+        <nav class="navbar">
+            <a \ href="{{ url_for('main.index') }}">Home</a>
+            <a id="search" href="{{ url_for('main.search') }}">Search</a>
+            <a id="my-fridge" href="{{ url_for('main.fridge') }}">My Fridge</a>
+            <a id="grocery-list" href="{{ url_for('main.grocerylist') }}">Grocery List</a>
+            <div id="special-div" class="animation start-{{id}}"></div>
+
+            <div class="login-elements">
+
+                {% if current_user.is_authenticated %}
+                <div class="display-user">
+                    <h4>Signed in as {{ current_user.username }}</h4>
+                </div>
+                {% else %}
+                <a href="{{url_for('auth.login')}}"> <i class="fas fa-sign-in-alt"></i> Login</a>
+                {% endif %}
+
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('auth.logout') }}"> <i class="fas fa-sign-out-alt"></i> Sign Out</a>
+                {% else %}
+                {% endif %}
+                <a href="{{ url_for('auth.signup') }}"> <i class="fas fa-user-plus"></i> Sign up</a>
+            </div>>
+        </nav>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("a").click(function(event) {
+                // create variable that adds the appropriate css style to the <a> element
+                var my_id = event.target.id; // get the id that triggered the event
+                desired_class = "animation start-".concat(my_id);
+                $('#special-div').removeClass().addClass(desired_class);
+                // alert($('#special-div').hasClass(desired_class));
+            });
+        });
+    </script>
+    {% endblock %}
+
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    {% block content %}
+
+    {% block page_content %}
+
+    {% endblock %}
+
+    {% endblock %}
+
+</body>

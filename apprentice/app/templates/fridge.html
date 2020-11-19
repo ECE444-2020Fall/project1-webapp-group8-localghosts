@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/fridge.css') }}">
+{% endblock %}
+
+{% block page_content %}
+
+<div class="jumbotron dark">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6">
+                <h2> Virtual Inventory Coming soon! </h2>
+
+                <h4 class="recipe-info">Keep track of your groceries...</h4>
+                <br><br><br>
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                <span class="recipe-info">Add items to your virtual fridge</span>
+                <br>
+                <span class="glyphicon glyphicon-minus-sign"></span>
+                <span class="recipe-info">Adjust quantities as you cook</span>
+                <br>
+                <span class="glyphicon glyphicon-exclamation-sign"></span>
+                <span class="recipe-info">Get Low Quantity Alerts</span>
+                <br>
+                <span class="glyphicon glyphicon-option-horizontal"></span>
+                <span class="recipe-info">And more!</span>
+            </div>
+
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='images/fridge_preview.png') }}" class="jumbotron-image">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/grocerylist.css') }}">
+{% endblock %}
+
+{% block page_content %}
+
+
+<div class="jumbotron dark">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-7">
+                <h2> Grocery List Coming soon! </h2>
+
+                <br>
+                <span class="glyphicon glyphicon-list"></span>
+                <span class="recipe-info">Keep Track of items to buy...</span>
+                <br><br><br>
+                <span class="glyphicon glyphicon-plus-sign"></span>
+                <span class="recipe-info">Quick-Add items from recipe ingredients</span>
+                <br><span class="glyphicon glyphicon-plus-sign"></span>
+                <span class="recipe-info">Auto-Add low quantity items (integration with virtual fridge)</span>
+                <br>
+                <span class="glyphicon glyphicon-option-horizontal"></span>
+                <span class="recipe-info">And more!</span>
+            </div>
+
+            <div class="col-md-5">
+                <img src="{{ url_for('static', filename='images/grocery_list_preview.png') }}" class="jumbotron-image">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

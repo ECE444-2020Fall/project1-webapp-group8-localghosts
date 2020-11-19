@@ -1,0 +1,80 @@
+{
+    "properties": {
+
+        "name": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "ingredients": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "url": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "source": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+
+        "calories": {
+            "type": "short"
+        },
+        "carbohydrate": {
+            "type": "short"
+        },
+        "fat": {
+            "type": "short"
+        },
+        "protein": {
+            "type": "short"
+        },
+
+        "image": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "cookTime": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "recipeYield": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "datePublished": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "prepTime": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "description": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "totalTime": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "creator": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "recipeCategory": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+        "recipeInstructions": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        },
+
+        "tags": {
+            "type": "text",
+            "fields": {"keyword": {"type": "keyword", "ignore_above": 256}}
+        }
+    }
+}

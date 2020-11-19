@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  app:
+    build: ./apprentice
+    image: arefeena/apprentice-app:latest
+    restart: on-failure
+    expose: [ "5000" ]
+    environment: 
+      - "ELASTICSEARCH_URL=http://recipes:9200/"
+      - "WAIT_HOSTS=recipes:9200"
+      - "GCS_DEVELOPER_KEY=${GCS_DEVELOPER_KEY}"
+      - "GCS_CX=${GCS_CX}"
+  recipes:
+    build: ./recipe-db
+    image: arefeena/apprentice-recipes:latest
+    restart: on-failure
+    expose: [ "9200", "9300" ]

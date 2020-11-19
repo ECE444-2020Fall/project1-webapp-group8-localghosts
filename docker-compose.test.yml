@@ -1,0 +1,10 @@
+version: "3.8"
+
+# This file extends and overrides configuration in docker-compose.yml if
+# both are passed in to `docker-compose up` like mentioned in the README
+# See docs for explanation if you're curious https://docs.docker.com/compose/extends/
+services:
+  app:
+    command: bash -c 'coverage run --source=. -m flask test && coverage report -m && coverage report | tail -1 | grep -o "[0-9]*%"'
+    environment:
+      - "WAIT_AFTER_HOSTS=5"

@@ -1,0 +1,46 @@
+.jumbotron {
+    background-image: url(/static/images/search_background.png);
+    width: 100%;
+    height: auto;
+}
+
+.jumbotron h1.jumbotron-text {
+    color: #d4af85;
+    /* dark cream */
+    font-size: 60px;
+    font-family: sans-serif;
+}
+
+.search-bar {
+    height: 45px;
+    width: 260px;
+    background-color: #FEEFDD;
+    /* light cream */
+    border: none;
+    border-radius: 5px;
+}
+
+div .col-md-6 {
+    padding: 0px 0px;
+}
+
+.col-md-6 .text-center {
+    width: auto;
+    height: auto;
+    margin: 20px;
+}
+
+.glyphicon.glyphicon-search {
+    color: #d4af85;
+    /* dark cream */
+    font-size: 80px;
+}
+
+#autocomplete {
+    background-color: #FEEFDD;
+    color: black;
+}
+
+#submit {
+    background-color: #FEEFDD;
+}

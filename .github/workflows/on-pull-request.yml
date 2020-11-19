@@ -1,0 +1,70 @@
+name: Pull Request Automation
+
+# Triggered on create pull request and re-triggered for every new commit that's pushed to the branch with a PR open
+# Doc: https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows#pull_request
+on: [pull_request, workflow_dispatch]
+
+# Two jobs: lint/format, and then run tests
+jobs:
+  # Check out the code, format it, and push a new commit if anything's changed
+  # Heavily inspired by https://peterevans.dev/posts/github-actions-how-to-automate-code-formatting-in-pull-requests/
+  format:
+    # Check if the PR is not from a fork (required because of read/write permission limitations on default token)
+    # https://docs.github.com/en/free-pro-team@latest/actions/reference/authentication-in-a-workflow#permissions-for-the-github_token
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+
+      - name: Format python code with isort (for import ordering) and black (for everything else)
+        run: |
+          python -m pip install --upgrade pip
+          pip install isort black
+          isort .
+          black .
+
+      - name: Format frontend code with js-beautify
+        run: "git ls-files '*.html' '*.css' '*.js' | xargs npx js-beautify --replace"
+
+      - name: Check for modified files
+        id: git-check
+        run: |
+          git update-index -q --refresh
+          echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+
+      - name: Commit and push back changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'LocalGhosts Bot'
+          git config --global user.email 'project1-webapp-group8-localghosts@noreply.github.com'
+          git commit -am "Automated code formatting"
+          git push
+
+  # Check out the code and run our tests
+  test:
+    # We'll run this job only if the other one successfully completes
+    needs: format
+
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Build and run tests
+        env:
+          GCS_DEVELOPER_KEY: ${{ secrets.GCS_DEVELOPER_KEY }}
+          GCS_CX: ${{ secrets.GCS_CX }}
+        run: docker-compose -f docker-compose.yml -f docker-compose.test.yml up --build --exit-code-from app

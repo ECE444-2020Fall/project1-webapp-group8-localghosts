@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+{% endblock %}
+
+{% block page_content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <h1 class="jumbotron-text">Ready. Set. Cook!</h1>
+                <br>
+
+                {{ wtf.quick_form(form, form_type="inline") }}
+
+                <br><br><br>
+
+                <a href="{{ url_for('main.search') }}">
+                    <span class="glyphicon glyphicon-search"></span>
+                    <b>
+                        <h4>Search by ingredients, <br>nutrition information <br> and more...</h4>
+                    </b>
+                </a>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-6 text-center">
+        <a class="btn btn-primary btn-xlg text-center" href="{{ url_for('main.fridge') }}" role="button">Manage My
+            Fridge</a>
+    </div>
+
+
+    <div class="col-md-6 text-center">
+        <a class="btn btn-primary btn-xlg text-center" href="{{ url_for('main.grocerylist') }}" role="button"> My Grocery
+            List</a>
+    </div>
+</div>
+
+<script>
+    $('#autocomplete').autocomplete({
+        source: function(request, response) {
+            $.getJSON("/search/autocomplete", {
+                query: request.term,
+            }, function(data) {
+                response(data);
+            });
+        }
+    });
+</script>
+
+{% endblock %}
